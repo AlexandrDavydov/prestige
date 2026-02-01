@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Тренеры</title>
+</head>
+<body>
+<h1>Тренеры</h1>
+<a href="{{ url_for('add_coach') }}">Добавить тренера</a><br><br>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Отчество</th>
+        <th>Контакты</th>
+        <th>Дата рожд</th>
+        <th>Проведенные</th>
+        <th>Оплаченные</th>
+        <th>За 1 чел</th>
+        <th>Доп.</th>
+        <th>Долг по з.п.</th>
+        <th>Действия</th>
+    </tr>
+    {% for coach in coaches %}
+    <tr>
+        <td>{{ coach.id }}</td>
+        <td>{{ coach.first_name }}</td>
+        <td>{{ coach.last_name }}</td>
+        <td>{{ coach.middle_name }}</td>
+        <td>{{ coach.contacts }}</td>
+        <td>{{ coach.birthday }}</td>
+        <td>{{ coach.lessons_count }}</td>
+        <td>{{ coach.lessons_paid }}</td>
+        <td>{{ coach.student_payment }}</td>
+        <td>{{ coach.additional_info }}</td>
+        <td>{{ (coach.lessons_count - coach.lessons_paid) * coach.student_payment }}</td>
+        <td>
+            <a href="{{ url_for('edit_coach', coach_id=coach.id) }}">✏️</a>
+            <a href="{{ url_for('delete_coach', coach_id=coach.id) }}">🗑️</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('index') }}">Главная</a>
+</body>
+</html>

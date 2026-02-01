@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Абонементы</title>
+</head>
+<body>
+<h1>Абонементы</h1>
+<a href="{{ url_for('add_card') }}">Добавить Абонемент</a><br><br>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Занятия</th>
+        <th>Длительность</th>
+        <th>Цвет</th>
+        <th>Статус</th>
+        <th>Действия</th>
+    </tr>
+    {% for card in cards %}
+    <tr>
+        <td>{{ card.id }}</td>
+        <td>{{ card.name }}</td>
+        <td>{{ card.price }}</td>
+        <td>{{ card.lessons_count }}</td>
+        <td>{{ card.duration }}</td>
+        <td>{{ card.color }}</td>
+        <td>{{ card.status }}</td>
+        <td>
+            <a href="{{ url_for('edit_card', card_id=card.id) }}">✏️</a>
+            <a href="{{ url_for('delete_card', card_id=card.id) }}">🗑️</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('index') }}">Главная</a>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Занятия</title>
+</head>
+<body>
+<h1>Занятия</h1>
+<a href="{{ url_for('add_lesson') }}">Добавить занятие</a>
+
+<table border="1">
+<tr>
+  <th>ID</th>
+  <th>Дата</th>
+  <th>Тренер</th>
+  <th>Ученики</th>
+  <th>Статус</th>
+  <th></th>
+</tr>
+
+{% for l in lessons %}
+<tr>
+  <td>{{ l.id }}</td>
+  <td>{{ l.date }}</td>
+  <td>
+    {% for c in coaches %}
+      {% if c.id == l.coach_id %}
+        {{ c.first_name }} {{ c.last_name }}
+      {% endif %}
+    {% endfor %}
+  </td>
+  <td>{{ l.student_ids }}</td>
+  <td>{{ l.status }}</td>
+  <td>
+    <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">✅</a>
+    <a href="{{ url_for('edit_lesson', lesson_id=l.id) }}" title="Редактировать">✏️</a>
+    <a href="{{ url_for('delete_lesson', lesson_id=l.id) }}" title="Удалить">🗑️</a>
+  </td>
+</tr>
+{% endfor %}
+</table>
+<a href="{{ url_for('index') }}">Главная</a>
+</body>
+</html>

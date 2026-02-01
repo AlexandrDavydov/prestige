@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать карточку</title>
+</head>
+<body>
+<h1>Редактировать Абонемент</h1>
+<form method="POST">
+    Название: <input type="text" name="name" value="{{ card.name }}" required><br>
+    Цена: <input type="number" name="price" value="{{ card.price }}" required><br>
+    Кол-во занятий: <input type="number" name="lessons_count" value="{{ card.lessons_count }}" required><br>
+    Длительность: <input type="text" name="duration" value="{{ card.duration }}" required><br>
+    Цвет: <input type="text" name="color" value="{{ card.color }}"><br>
+    Статус:
+    <select name="status">
+        <option {% if card.status=='Черновик' %}selected{% endif %}>Черновик</option>
+        <option {% if card.status=='Активна' %}selected{% endif %}>Активна</option>
+        <option {% if card.status=='Архив' %}selected{% endif %}>Архив</option>
+    </select><br>
+    <button type="submit">Сохранить</button>
+</form>
+<a href="{{ url_for('cards') }}">Назад</a>
+</body>
+</html>

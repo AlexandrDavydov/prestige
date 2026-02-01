@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать тренера</title>
+</head>
+<body>
+<h1>Редактировать тренера</h1>
+<form method="POST">
+    Имя: <input type="text" name="first_name" value="{{ coach.first_name }}" required><br>
+    Фамилия: <input type="text" name="last_name" value="{{ coach.last_name }}" required><br>
+    Отчество: <input type="text" name="middle_name" value="{{ coach.middle_name }}"><br>
+    Контакты: <input type="text" name="contacts" value="{{ coach.contacts }}"><br>
+    День рождения: <input type="date" name="birthday" value="{{ coach.birthday }}"><br>
+    Кол-во проведенных занятий: <input type="number" name="lessons_count" value="{{ coach.lessons_count }}"><br>
+    Кол-во оплаченных занятий: <input type="number" name="lessons_paid" value="{{ coach.lessons_paid }}"><br>
+    Оплата за каждого ученика: <input type="number" name="student_payment" value="{{ coach.student_payment }}"><br>
+    Доп. информация: <input type="text" name="additional_info" value="{{ coach.additional_info }}"><br>
+    <button type="submit">Сохранить</button>
+</form>
+<a href="{{ url_for('coaches') }}">Назад</a>
+</body>
+</html>

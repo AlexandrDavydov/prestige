@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить ученика</title>
+</head>
+<body>
+<h1>Добавить ученика</h1>
+<form method="POST">
+    Имя: <input type="text" name="first_name" required><br>
+    Фамилия: <input type="text" name="last_name" required><br>
+    Отчество: <input type="text" name="middle_name"><br>
+    Контакты: <input type="text" name="contacts"><br>
+    День рождения: <input type="date" name="birthday"><br>
+    Кол-во занятий: <input type="number" name="lessons_count"><br>
+    Доп. информация: <input type="text" name="additional_info"><br>
+    <button type="submit">Сохранить</button>
+</form>
+<a href="{{ url_for('students') }}">Назад</a>
+</body>
+</html>
