@@ -301,9 +301,6 @@ def delete_lesson(lesson_id):
     conn.commit()
     conn.close()
 
-    conn.commit()
-    conn.close()
-
 def decrement_lessons_from_students(lesson_id):
     conn = get_connection()
     cursor = conn.cursor()
