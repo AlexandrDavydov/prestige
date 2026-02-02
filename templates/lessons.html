@@ -39,6 +39,25 @@
 </tr>
 {% endfor %}
 </table>
+
+Шаблоны:
+<select id="lesson_template_select">
+    {% for l in lesson_templates %}
+        <option value="{{ l.id }}">{{ l.template_name }}</option>
+    {% endfor %}
+</select>
+
+<a href="#"
+   class="btn"
+   onclick="addFromTemplate()">➕ Добавить из шаблона</a>
+<br>
 <a href="{{ url_for('index') }}">Главная</a>
 </body>
 </html>
+<script>
+function addFromTemplate() {
+    const select = document.getElementById("lesson_template_select");
+    const id = select.value;
+    window.location.href = `/lesson_template/add/${id}`;
+}
+</script>

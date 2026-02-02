@@ -155,6 +155,7 @@ def delete_coach(coach_id):
 # ===== Lessons =====
 @app.route("/lessons")
 def lessons():
+    lesson_templates = db.get_all_lesson_templates()
     lessons = db.get_all_lessons()
     students = db.get_all_students()
     coaches = db.get_all_coaches()
@@ -162,7 +163,8 @@ def lessons():
         "lessons.html",
         lessons=lessons,
         students=students,
-        coaches=coaches
+        coaches=coaches,
+        lesson_templates=lesson_templates
     )
 
 @app.route("/lessons/add", methods=["GET", "POST"])
@@ -212,6 +214,12 @@ def lesson_done(lesson_id):
     db.decrement_lessons_from_students(lesson_id)
     db.increment_lessons_to_couch(lesson_id)
     return redirect(request.referrer or url_for("lessons"))
+
+@app.route("/lesson_template/add/<int:lesson_template_id>")
+def add_lesson_from_template_route(lesson_template_id):
+    db.add_lesson_from_template(lesson_template_id)
+    return redirect(url_for("lessons"))
+#================================lesson template=============================
 
 @app.route("/lesson_templates")
 def lesson_templates():

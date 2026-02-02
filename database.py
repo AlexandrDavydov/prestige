@@ -233,11 +233,11 @@ def get_all_lesson_templates():
 
 def get_lesson_template_by_id(lesson_template_id):
     conn = get_connection()
-    lesson = conn.execute(
+    lesson_template = conn.execute(
         "SELECT * FROM lesson_templates WHERE id=?", (lesson_template_id,)
     ).fetchone()
     conn.close()
-    return lesson
+    return lesson_template
 
 def add_lesson_template(template_name, coach_id, student_ids):
     conn = get_connection()
@@ -374,5 +374,15 @@ def increment_lessons_to_couch(lesson_id):
         (students_count, coach_id)
     )
 
+    conn.commit()
+    conn.close()
+
+def add_lesson_from_template(lesson_template_id):
+    conn = get_connection()
+    lesson_template = get_lesson_template_by_id(lesson_template_id)
+    conn.execute("""
+        INSERT INTO lessons (date, coach_id, student_ids, status)
+        VALUES (?, ?, ?, ?)
+    """, (datetime.now().strftime("%Y-%m-%d"), lesson_template["coach_id"], lesson_template["student_ids"], "Запланировано"))
     conn.commit()
     conn.close()

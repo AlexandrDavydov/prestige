@@ -7,9 +7,9 @@
 <body>
 <h1>Добавить ученика</h1>
 <form method="POST">
-    Имя: <input type="text" name="first_name" required><br>
-    Фамилия: <input type="text" name="last_name" required><br>
-    Отчество: <input type="text" name="middle_name"><br>
+    Фамилия: <input type="text" name="last_name" required oninput="capitalizeFirst(this)"><br>
+    Имя: <input type="text" name="first_name" required oninput="capitalizeFirst(this)"><br>
+    Отчество: <input type="text" name="middle_name" oninput="capitalizeFirst(this)"><br>
     Контакты: <input type="text" name="contacts"><br>
     День рождения: <input type="date" name="birthday"><br>
     Кол-во занятий: <input type="number" name="lessons_count"><br>
@@ -19,3 +19,13 @@
 <a href="{{ url_for('students') }}">Назад</a>
 </body>
 </html>
+
+<script>
+function capitalizeFirst(input) {
+    if (input.value.length > 0) {
+        input.value =
+            input.value.charAt(0).toUpperCase() +
+            input.value.slice(1);
+    }
+}
+</script>
