@@ -102,39 +102,6 @@ def delete_student(student_id):
     flash("Ученик удален!", "success")
     return redirect(url_for("students"))
 
-# ======= Groups =======
-@app.route("/groups")
-def groups():
-    groups = db.get_all_groups()
-    return render_template("groups.html", groups=groups)
-
-@app.route("/groups/add", methods=["GET", "POST"])
-def add_group():
-    if request.method == "POST":
-        student_ids = request.form.getlist("student_ids")
-        db.add_group(student_ids)
-        flash("Группа создана!", "success")
-        return redirect(url_for("groups"))
-    students = db.get_all_students()
-    return render_template("add_group.html", students=students)
-
-@app.route("/groups/edit/<int:group_id>", methods=["GET", "POST"])
-def edit_group(group_id):
-    group = db.get_group_by_id(group_id)
-    if request.method == "POST":
-        student_ids = request.form.getlist("student_ids")
-        db.update_group(group_id, student_ids)
-        flash("Группа обновлена!", "success")
-        return redirect(url_for("groups"))
-    students = db.get_all_students()
-    return render_template("edit_group.html", group=group, students=students)
-
-@app.route("/groups/delete/<int:group_id>")
-def delete_group(group_id):
-    db.delete_group(group_id)
-    flash("Группа удалена!", "success")
-    return redirect(url_for("groups"))
-
 # ======= Coaches =======
 @app.route("/coaches")
 def coaches():
@@ -186,7 +153,6 @@ def delete_coach(coach_id):
     return redirect(url_for("coaches"))
 
 # ===== Lessons =====
-
 @app.route("/lessons")
 def lessons():
     lessons = db.get_all_lessons()
@@ -246,6 +212,58 @@ def lesson_done(lesson_id):
     db.decrement_lessons_from_students(lesson_id)
     db.increment_lessons_to_couch(lesson_id)
     return redirect(request.referrer or url_for("lessons"))
+
+@app.route("/lesson_templates")
+def lesson_templates():
+    lesson_templates = db.get_all_lesson_templates()
+    students = db.get_all_students()
+    coaches = db.get_all_coaches()
+    return render_template(
+        "lesson_templates.html",
+        lesson_templates=lesson_templates,
+        students=students,
+        coaches=coaches
+    )
+
+@app.route("/lesson_templates/add", methods=["GET", "POST"])
+def add_lesson_template():
+    if request.method == "POST":
+        db.add_lesson_template(
+            request.form["template_name"],
+            request.form["coach_id"],
+            request.form.getlist("student_ids"),
+        )
+        return redirect(url_for("lesson_templates"))
+
+    return render_template(
+        "add_lesson_template.html",
+        students=db.get_all_students(),
+        coaches=db.get_all_coaches()
+    )
+
+@app.route("/lesson_templates/edit/<int:lesson_template_id>", methods=["GET", "POST"])
+def edit_lesson_template(lesson_template_id):
+    lesson_template = db.get_lesson_template_by_id(lesson_template_id)
+    if request.method == "POST":
+        db.update_lesson_template(
+            lesson_template_id,
+            request.form["template_name"],
+            request.form["coach_id"],
+            request.form.getlist("student_ids"),
+        )
+        return redirect(url_for("lesson_templates"))
+
+    return render_template(
+        "edit_lesson_template.html",
+        lesson_template=lesson_template,
+        students=db.get_all_students(),
+        coaches=db.get_all_coaches()
+    )
+
+@app.route("/lesson_templates/delete/<int:lesson_template_id>")
+def delete_lesson_template(lesson_template_id):
+    db.delete_lesson_template(lesson_template_id)
+    return redirect(url_for("lesson_templates"))
 
 if __name__ == "__main__":
     app.run(debug=True)

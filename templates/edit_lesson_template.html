@@ -1,0 +1,26 @@
+<h1>Редактировать шаблон занятия</h1>
+
+<form method="post">
+Название:
+<input type="text" name="template_name" value="{{ lesson_template.template_name }}">
+<br>
+Тренер:
+<select name="coach_id">
+{% for c in coaches %}
+<option value="{{ c.id }}"
+{% if c.id == lesson_template.coach_id %}selected{% endif %}>
+{{ c.first_name }} {{ c.last_name }}
+</option>
+{% endfor %}
+</select><br>
+
+Ученики:<br>
+{% set ids = lesson_template.student_ids.split(',') %}
+{% for s in students %}
+<input type="checkbox" name="student_ids" value="{{ s.id }}"
+{% if s.id|string in ids %}checked{% endif %}>
+{{ s.first_name }} {{ s.last_name }}<br>
+{% endfor %}
+
+<button type="submit">Сохранить</button>
+</form>

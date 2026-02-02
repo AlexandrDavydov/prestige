@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Шаблоны занятий</title>
+</head>
+<body>
+<h1>Шаблоны занятий</h1>
+<a href="{{ url_for('add_lesson_template') }}">Добавить шаблон занятия</a>
+
+<table border="1">
+<tr>
+  <th>ID</th>
+  <th>Название</th>
+  <th>Тренер</th>
+  <th>Ученики</th>
+  <th>Действия</th>
+</tr>
+
+{% for l in lesson_templates %}
+<tr>
+  <td>{{ l.id }}</td>
+  <td>{{ l.template_name }}</td>
+  <td>
+    {% for c in coaches %}
+      {% if c.id == l.coach_id %}
+        {{ c.first_name }} {{ c.last_name }}
+      {% endif %}
+    {% endfor %}
+  </td>
+  <td>{{ l.student_ids }}</td>
+  <td>
+    <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Добавить в занятия">➕</a>
+    <a href="{{ url_for('edit_lesson_template', lesson_template_id=l.id) }}" title="Редактировать">✏️</a>
+    <a href="{{ url_for('delete_lesson_template', lesson_template_id=l.id) }}" title="Удалить">🗑️</a>
+  </td>
+</tr>
+{% endfor %}
+</table>
+<a href="{{ url_for('index') }}">Главная</a>
+</body>
+</html>

@@ -3,7 +3,6 @@ from datetime import datetime
 
 DB_NAME = "db.db"
 
-
 def get_connection():
     conn = sqlite3.connect(DB_NAME)
     conn.row_factory = sqlite3.Row
@@ -44,14 +43,6 @@ def init_db():
                    """)
 
     cursor.execute("""
-                   CREATE TABLE IF NOT EXISTS groups
-                   (
-                       id INTEGER PRIMARY KEY AUTOINCREMENT,
-                       student_ids TEXT
-                   )
-                   """)
-
-    cursor.execute("""
                    CREATE TABLE IF NOT EXISTS coaches
                    (
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -76,6 +67,16 @@ def init_db():
                        coach_id INTEGER NOT NULL,
                        student_ids TEXT,
                        status TEXT NOT NULL
+                   )
+                   """)
+
+    cursor.execute("""
+                   CREATE TABLE IF NOT EXISTS lesson_templates
+                   (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       template_name TEXT NOT NULL,
+                       coach_id INTEGER NOT NULL,
+                       student_ids TEXT
                    )
                    """)
 
@@ -172,49 +173,11 @@ def update_student(student_id, first_name, last_name, middle_name, contacts, bir
     conn.commit()
     conn.close()
 
-
 def delete_student(student_id):
     conn = get_connection()
     conn.execute("DELETE FROM students WHERE id=?", (student_id,))
     conn.commit()
     conn.close()
-
-
-# Groups
-def get_all_groups():
-    conn = get_connection()
-    groups = conn.execute("SELECT * FROM groups").fetchall()
-    conn.close()
-    return groups
-
-
-def get_group_by_id(group_id):
-    conn = get_connection()
-    group = conn.execute("SELECT * FROM groups WHERE id=?", (group_id,)).fetchone()
-    conn.close()
-    return group
-
-
-def add_group(student_ids):
-    conn = get_connection()
-    conn.execute("INSERT INTO groups (student_ids) VALUES (?)", (",".join(map(str, student_ids)),))
-    conn.commit()
-    conn.close()
-
-
-def update_group(group_id, student_ids):
-    conn = get_connection()
-    conn.execute("UPDATE groups SET student_ids=? WHERE id=?", (",".join(map(str, student_ids)), group_id))
-    conn.commit()
-    conn.close()
-
-
-def delete_group(group_id):
-    conn = get_connection()
-    conn.execute("DELETE FROM groups WHERE id=?", (group_id,))
-    conn.commit()
-    conn.close()
-
 
 # Coaches
 def get_all_coaches():
@@ -260,8 +223,48 @@ def delete_coach(coach_id):
     conn.execute("DELETE FROM coaches WHERE id=?", (coach_id,))
     conn.commit()
     conn.close()
-# ===== Lessons =====
 
+    # ===== Lessons templates========================================================================
+def get_all_lesson_templates():
+    conn = get_connection()
+    lesson_templates = conn.execute("SELECT * FROM lesson_templates").fetchall()
+    conn.close()
+    return lesson_templates
+
+def get_lesson_template_by_id(lesson_template_id):
+    conn = get_connection()
+    lesson = conn.execute(
+        "SELECT * FROM lesson_templates WHERE id=?", (lesson_template_id,)
+    ).fetchone()
+    conn.close()
+    return lesson
+
+def add_lesson_template(template_name, coach_id, student_ids):
+    conn = get_connection()
+    conn.execute("""
+                 INSERT INTO lesson_templates (template_name, coach_id, student_ids)
+                 VALUES (?, ?, ?)
+                 """, (template_name, coach_id, ",".join(student_ids)))
+    conn.commit()
+    conn.close()
+
+def update_lesson_template(lesson_template_id, template_name,coach_id, student_ids):
+    conn = get_connection()
+    conn.execute("""
+                 UPDATE lesson_templates
+                 SET template_name=?, coach_id=?, student_ids=?
+                 WHERE id = ?
+                 """, (template_name, coach_id, ",".join(student_ids), lesson_template_id))
+    conn.commit()
+    conn.close()
+
+def delete_lesson_template(lesson_template_id):
+    conn = get_connection()
+    conn.execute("DELETE FROM lesson_templates WHERE id=?", (lesson_template_id,))
+    conn.commit()
+    conn.close()
+
+# ===== Lessons ========================================================================
 def get_all_lessons():
     conn = get_connection()
     lessons = conn.execute("SELECT * FROM lessons").fetchall()
@@ -301,6 +304,7 @@ def delete_lesson(lesson_id):
     conn.commit()
     conn.close()
 
+# ===== Lesson DONE ========================================================================
 def decrement_lessons_from_students(lesson_id):
     conn = get_connection()
     cursor = conn.cursor()
