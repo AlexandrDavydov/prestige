@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 import database as db
 
@@ -272,6 +274,19 @@ def edit_lesson_template(lesson_template_id):
 def delete_lesson_template(lesson_template_id):
     db.delete_lesson_template(lesson_template_id)
     return redirect(url_for("lesson_templates"))
+
+@app.template_filter("ru_date")
+def ru_date(value):
+    if not value:
+        return ""
+
+    for fmt in ("%Y.%m.%d", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(value, fmt).strftime("%d.%m.%Y")
+        except ValueError:
+            pass
+
+    return value  # если формат неожиданный
 
 if __name__ == "__main__":
     app.run(debug=True)

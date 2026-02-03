@@ -138,7 +138,7 @@ def delete_card(card_id):
 # Students
 def get_all_students():
     conn = get_connection()
-    students = conn.execute("SELECT * FROM students").fetchall()
+    students = conn.execute("SELECT * FROM students ORDER BY last_name ASC").fetchall()
     conn.close()
     return students
 

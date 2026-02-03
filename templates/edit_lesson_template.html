@@ -9,7 +9,7 @@
 {% for c in coaches %}
 <option value="{{ c.id }}"
 {% if c.id == lesson_template.coach_id %}selected{% endif %}>
-{{ c.first_name }} {{ c.last_name }}
+{{ c.last_name }} {{ c.first_name }}
 </option>
 {% endfor %}
 </select><br>
@@ -19,7 +19,7 @@
 {% for s in students %}
 <input type="checkbox" name="student_ids" value="{{ s.id }}"
 {% if s.id|string in ids %}checked{% endif %}>
-{{ s.first_name }} {{ s.last_name }}<br>
+{{ s.last_name }} {{ s.first_name }}<br>
 {% endfor %}
 
 <button type="submit">Сохранить</button>
