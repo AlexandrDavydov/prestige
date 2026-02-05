@@ -20,6 +20,18 @@ def cards():
     cards = db.get_all_cards()
     return render_template("cards.html", cards=cards)
 
+@app.route("/cards/buy/<int:student_id>", methods=["GET", "POST"])
+def buy_cards(student_id):
+    cards = db.get_all_cards()
+    return render_template("buy_cards.html", cards=cards, student_id=student_id)
+
+@app.route("/cards/purchased/", methods=["GET", "POST"])
+def purchased_cards():
+    if request.method == "POST":
+        db.add_card_lessons_to_student(card_id=request.form["card_id"], student_id=request.form["student_id"])
+        db.store_purchased_card(card_id=request.form["card_id"], student_id=request.form["student_id"])
+    return  redirect(url_for("students"))
+
 @app.route("/cards/add", methods=["GET", "POST"])
 def add_card():
     if request.method == "POST":
@@ -215,13 +227,14 @@ def delete_lesson(lesson_id):
 def lesson_done(lesson_id):
     db.decrement_lessons_from_students(lesson_id)
     db.increment_lessons_to_couch(lesson_id)
+    db.close_lessons(lesson_id)
     return redirect(request.referrer or url_for("lessons"))
 
+#================================lesson template=============================
 @app.route("/lesson_template/add/<int:lesson_template_id>")
 def add_lesson_from_template_route(lesson_template_id):
     db.add_lesson_from_template(lesson_template_id)
     return redirect(url_for("lessons"))
-#================================lesson template=============================
 
 @app.route("/lesson_templates")
 def lesson_templates():

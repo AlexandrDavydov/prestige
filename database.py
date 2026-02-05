@@ -85,7 +85,8 @@ def init_db():
                    (
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
                        date TEXT NOT NULL,
-                       card_id INTEGER NOT NULL
+                       card_id INTEGER NOT NULL,
+                       student_id INTEGER NOT NULL
                      )
                    """)
     conn.commit()
@@ -122,7 +123,7 @@ def update_card(card_id, name, price, lessons_count, duration, color, status):
     conn = get_connection()
     conn.execute("""
                  UPDATE cards
-                 SET name=?, price=?, duration=?, color=?, status=?  WHERE id = ?
+                 SET name=?, price=?, lessons_count=?, duration=?, color=?, status=?  WHERE id = ?
                  """, (name, price, lessons_count, duration, color, status, card_id))
     conn.commit()
     conn.close()
@@ -342,6 +343,20 @@ def decrement_lessons_from_students(lesson_id):
     conn.commit()
     conn.close()
 
+def close_lessons(lesson_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        UPDATE lessons
+        SET status = 'Состоялось'
+        WHERE id = ?
+        """,
+        (lesson_id,)
+    )
+    conn.commit()
+    conn.close()
+
 def increment_lessons_to_couch(lesson_id):
     conn = get_connection()
     cursor = conn.cursor()
@@ -376,6 +391,33 @@ def increment_lessons_to_couch(lesson_id):
 
     conn.commit()
     conn.close()
+
+def add_card_lessons_to_student(card_id, student_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    student = get_student_by_id(student_id)
+    card = get_card_by_id(card_id)
+    new_lesson_count_value = student["lessons_count"] + card["lessons_count"]
+    cursor.execute(
+        """
+        UPDATE students
+        SET lessons_count = ?
+        WHERE id = ?
+        """,
+        (new_lesson_count_value, student_id)
+    )
+    conn.commit()
+    conn.close()
+
+def store_purchased_card(card_id, student_id):
+    conn = get_connection()
+    conn.execute("""
+        INSERT INTO sold_cards (date, card_id, student_id)
+        VALUES (?, ?, ?)
+    """, (datetime.now().strftime("%Y-%m-%d"), card_id, student_id))
+    conn.commit()
+    conn.close()
+
 
 def add_lesson_from_template(lesson_template_id):
     conn = get_connection()

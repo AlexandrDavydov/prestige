@@ -21,7 +21,7 @@
 {% for l in lessons %}
 <tr>
   <td>{{ l.id }}</td>
-  <td>{{ l.date }}</td>
+  <td>{{ l.date | ru_date }}</td>
   <td>
     {% for c in coaches %}
       {% if c.id == l.coach_id %}
@@ -29,7 +29,14 @@
       {% endif %}
     {% endfor %}
   </td>
-  <td>{{ l.student_ids }}</td>
+<td>
+  {% set ids = l.student_ids.split(',') %}
+  {% for s in students %}
+    {% if s.id|string in ids %}
+      {{ s.last_name }} {{ s.first_name }}<br>
+    {% endif %}
+  {% endfor %}
+</td>
   <td>{{ l.status }}</td>
   <td>
     <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">✅</a>
