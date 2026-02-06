@@ -8,6 +8,15 @@
 <h1>Занятия</h1>
 <a href="{{ url_for('add_lesson') }}">Добавить занятие</a>
 
+<form method="get" action="{{ url_for('lessons') }}">
+    <label for="status_filter">Фильтр по статусу:</label>
+    <select name="status_filter" id="status_filter" onchange="this.form.submit()">
+        <option value="Запланировано" {% if status_filter=='Запланировано' %}selected{% endif %}>Запланировано</option>
+        <option value="Состоялось" {% if status_filter=='Состоялось' %}selected{% endif %}>Состоялось</option>
+        <option value="Все" {% if status_filter=='Все' %}selected{% endif %}>Все</option>
+    </select>
+</form>
+
 <table border="1">
 <tr>
   <th>ID</th>

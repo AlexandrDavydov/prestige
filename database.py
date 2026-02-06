@@ -272,6 +272,12 @@ def get_all_lessons():
     conn.close()
     return lessons
 
+def get_lessons_filtered_by_status(status):
+    conn = get_connection()
+    lessons = conn.execute("SELECT * FROM lessons WHERE status = ?",(status,)).fetchall()
+    conn.close()
+    return lessons
+
 def get_lesson_by_id(lesson_id):
     conn = get_connection()
     lesson = conn.execute(

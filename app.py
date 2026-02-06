@@ -169,16 +169,27 @@ def delete_coach(coach_id):
 # ===== Lessons =====
 @app.route("/lessons")
 def lessons():
-    lesson_templates = db.get_all_lesson_templates()
-    lessons = db.get_all_lessons()
+    status_filter = request.args.get("status_filter")
+
+    if status_filter is None:
+        status_filter = "Запланировано"
+
+    if status_filter == "Все":
+        lessons = db.get_all_lessons()
+    else:
+        lessons = db.get_lessons_filtered_by_status(status_filter)
+
     students = db.get_all_students()
     coaches = db.get_all_coaches()
+    lesson_templates = db.get_all_lesson_templates()
+
     return render_template(
         "lessons.html",
         lessons=lessons,
         students=students,
         coaches=coaches,
-        lesson_templates=lesson_templates
+        lesson_templates=lesson_templates,
+        status_filter=status_filter
     )
 
 @app.route("/lessons/add", methods=["GET", "POST"])
