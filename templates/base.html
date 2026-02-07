@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Prestige{% endblock %}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f7f7f7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* Flash сообщения */
+        .flash {
+            position: relative;
+            padding: 12px 35px 12px 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            transition: opacity 0.5s ease, max-height 0.5s ease, margin 0.5s ease;
+        }
+
+        .flash.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .flash.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .flash.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .flash.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Крестик закрытия */
+        .flash .close-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-weight: bold;
+            cursor: pointer;
+            color: inherit;
+            background: none;
+            border: none;
+            font-size: 18px;
+        }
+    </style>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Flash сообщения -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message | safe }}
+                    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Основной контент -->
+    {% block content %}{% endblock %}
+
+</div>
+
+<script>
+    // Автоскрытие всех flash сообщений через 5 секунд
+    window.addEventListener('DOMContentLoaded', () => {
+        const flashes = document.querySelectorAll('.flash');
+        flashes.forEach(flash => {
+            setTimeout(() => {
+                flash.style.opacity = '0';
+                flash.style.maxHeight = '0';
+                flash.style.margin = '0';
+                setTimeout(() => flash.remove(), 500); // окончательное удаление
+            }, 5000); // 5000 мс = 5 секунд
+        });
+    });
+</script>
+
+</body>
+</html>

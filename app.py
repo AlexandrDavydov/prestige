@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import database as db
 
 app = Flask(__name__)
-app.secret_key = "super-secret-key"
+app.secret_key = "super-secret-key-laksjdlakjsd"
 
 # Инициализация базы данных
 db.init_db()
@@ -119,7 +119,14 @@ def delete_student(student_id):
 # ======= Coaches =======
 @app.route("/coaches")
 def coaches():
-    coaches = db.get_all_coaches()
+    coaches_raw = db.get_all_coaches()
+    coaches = []
+    for c in coaches_raw:
+        coach = dict(c)  # ← ключевой момент
+        coach["lessons_paid"] = int(coach["lessons_paid"] or 0)
+        coach["student_payment"] = int(coach["student_payment"] or 0)
+        coach["lessons_count"] = int(coach["lessons_count"] or 0)
+        coaches.append(coach)
     return render_template("coaches.html", coaches=coaches)
 
 @app.route("/coaches/add", methods=["GET", "POST"])
@@ -136,7 +143,7 @@ def add_coach():
             student_payment=request.form["student_payment"],
             additional_info=request.form["additional_info"]
         )
-        flash("Тренер добавлен!", "success")
+        flash("Тренер "+request.form["last_name"]+" "+request.form["first_name"]+" добавлен!", "success")
         return redirect(url_for("coaches"))
     return render_template("add_coach.html")
 
@@ -156,14 +163,21 @@ def edit_coach(coach_id):
             student_payment=request.form["student_payment"],
             additional_info=request.form["additional_info"]
         )
-        flash("Данные тренера обновлены!", "success")
+        flash("Данные тренера <b>"+request.form["last_name"]+" "+request.form["first_name"]+"</b> обновлены!", "success")
         return redirect(url_for("coaches"))
     return render_template("edit_coach.html", coach=coach)
 
 @app.route("/coaches/delete/<int:coach_id>")
 def delete_coach(coach_id):
     db.delete_coach(coach_id)
-    flash("Тренер удален!", "success")
+    flash("Тренер <b>"+request.form["last_name"]+" "+request.form["first_name"]+"</b> удален!", "success")
+    return redirect(url_for("coaches"))
+
+@app.route("/coaches/money/<int:coach_id>")
+def give_money_to_coach(coach_id):
+    coach = db.get_coach_by_id(coach_id)
+    db.money_to_coach(coach_id)
+    flash("Расчет с тренером <b>"+coach["last_name"]+" "+coach["first_name"]+"</b> произведен!", "success")
     return redirect(url_for("coaches"))
 
 # ===== Lessons =====

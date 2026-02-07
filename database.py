@@ -225,6 +225,33 @@ def delete_coach(coach_id):
     conn.commit()
     conn.close()
 
+def money_to_coach(coach_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    coach = cursor.execute(
+        "SELECT lessons_count FROM coaches WHERE id = ?",
+        (coach_id,)
+    ).fetchone()
+
+    if coach is None:
+        conn.close()
+        return
+
+    lessons_count = int(coach["lessons_count"] or 0)
+
+    cursor.execute(
+        """
+        UPDATE coaches
+        SET lessons_paid = ?
+        WHERE id = ?
+        """,
+        (lessons_count, coach_id)
+    )
+
+    conn.commit()
+    conn.close()
+
     # ===== Lessons templates========================================================================
 def get_all_lesson_templates():
     conn = get_connection()
