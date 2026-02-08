@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Редактировать шаблон занятия{% endblock %}
+{% block content %}
 <h1>Редактировать шаблон занятия</h1>
 
 <form method="post">
@@ -22,5 +25,8 @@
 {{ s.last_name }} {{ s.first_name }}<br>
 {% endfor %}
 
-<button type="submit">Сохранить</button>
+<button type="submit">💾 Сохранить</button>
 </form>
+<br>
+<a href="{{ url_for('lesson_templates') }}">⬅ Назад</a>
+{% endblock %}

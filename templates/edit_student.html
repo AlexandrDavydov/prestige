@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Редактировать ученика</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Редактировать ученика{% endblock %}
+
+{% block content %}
 <h1>Редактировать ученика</h1>
 <form method="POST">
-    Фамилия: <input type="text" name="last_name" value="{{ student.last_name }}" required><br>
-    Имя: <input type="text" name="first_name" value="{{ student.first_name }}" required><br>
-    Отчество: <input type="text" name="middle_name" value="{{ student.middle_name }}"><br>
-    Контакты: <input type="text" name="contacts" value="{{ student.contacts }}"><br>
-    День рождения: <input type="date" name="birthday" value="{{ student.birthday }}"><br>
-    Кол-во занятий: <input type="number" name="lessons_count" value="{{ student.lessons_count }}"><br>
-    Доп. информация: <input type="text" name="additional_info" value="{{ student.additional_info }}"><br>
-    <button type="submit">Сохранить</button>
+    <label>Фамилия: <input type="text" name="last_name" value="{{ student.last_name }}" required></label><br><br>
+    <label>Имя: <input type="text" name="first_name" value="{{ student.first_name }}" required></label><br><br>
+    <label>Отчество: <input type="text" name="middle_name" value="{{ student.middle_name }}"></label><br><br>
+    <label>Контакты: <input type="text" name="contacts" value="{{ student.contacts }}"></label><br><br>
+    <label>День рождения: <input type="date" name="birthday" value="{{ student.birthday }}"></label><br><br>
+    <label>Кол-во занятий: <input type="number" name="lessons_count" value="{{ student.lessons_count }}"></label><br><br>
+    <label>Доп. информация: <input type="text" name="additional_info" value="{{ student.additional_info }}"></label><br><br>
+    <button type="submit">💾 Сохранить</button>
 </form>
-<a href="{{ url_for('students') }}">Назад</a>
-</body>
-</html>
+<br>
+<a href="{{ url_for('students') }}">⬅ Назад</a>
+{% endblock %}

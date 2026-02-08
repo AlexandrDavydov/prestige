@@ -71,21 +71,19 @@
 
     <!-- Flash сообщения -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">
-                    {{ message | safe }}
-                    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
-                </div>
-            {% endfor %}
-        {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">
+        {{ message | safe }}
+        <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
 
     <!-- Основной контент -->
     {% block content %}{% endblock %}
-
 </div>
-
 <script>
     // Автоскрытие всех flash сообщений через 5 секунд
     window.addEventListener('DOMContentLoaded', () => {
@@ -100,6 +98,5 @@
         });
     });
 </script>
-
 </body>
 </html>

@@ -6,51 +6,19 @@
 <h1>Редактировать тренера</h1>
 
 <form method="POST">
-    <label>
-        Фамилия:
-        <input type="text" name="last_name" value="{{ coach.last_name }}" required>
-    </label><br><br>
-
-    <label>
-        Имя:
-        <input type="text" name="first_name" value="{{ coach.first_name }}" required>
-    </label><br><br>
-
-    <label>
-        Отчество:
-        <input type="text" name="middle_name" value="{{ coach.middle_name }}">
-    </label><br><br>
-
-    <label>
-        Контакты:
-        <input type="text" name="contacts" value="{{ coach.contacts }}">
-    </label><br><br>
-
-    <label>
-        День рождения:
-        <input type="date" name="birthday" value="{{ coach.birthday }}">
-    </label><br><br>
-
-    <label>
-        Кол-во проведённых занятий:
-        <input type="number" name="lessons_count" value="{{ coach.lessons_count }}">
-    </label><br><br>
-
-    <label>
-        Кол-во оплаченных занятий:
-        <input type="number" name="lessons_paid" value="{{ coach.lessons_paid }}">
-    </label><br><br>
-
-    <label>
-        Оплата за одного ученика:
-        <input type="number" name="student_payment" value="{{ coach.student_payment }}">
-    </label><br><br>
-
-    <label>
-        Доп. информация:
-        <input type="text" name="additional_info" value="{{ coach.additional_info }}">
-    </label><br><br>
-
+    <label>Фамилия:<input type="text" name="last_name" value="{{ coach.last_name }}" required></label><br><br>
+    <label>Имя:<input type="text" name="first_name" value="{{ coach.first_name }}" required></label><br><br>
+    <label>Отчество:<input type="text" name="middle_name" value="{{ coach.middle_name }}"></label><br><br>
+    <label>Контакты:<input type="text" name="contacts" value="{{ coach.contacts }}"></label><br><br>
+    <label>День рождения:<input type="date" name="birthday" value="{{ coach.birthday }}"></label><br><br>
+    <label>Кол-во проведённых занятий:<input type="number" name="lessons_count"
+                                             value="{{ coach.lessons_count }}"></label><br><br>
+    <label>Кол-во оплаченных занятий:<input type="number" name="lessons_paid"
+                                            value="{{ coach.lessons_paid }}"></label><br><br>
+    <label>Оплата за одного ученика:<input type="number" name="student_payment"
+                                           value="{{ coach.student_payment }}"></label><br><br>
+    <label>Доп. информация:<input type="text" name="additional_info"
+                                  value="{{ coach.additional_info }}"></label><br><br>
     <button type="submit">💾 Сохранить</button>
 </form>
 

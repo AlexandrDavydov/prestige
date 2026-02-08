@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Добавить ученика</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Добавить ученика{% endblock %}
+
+{% block content %}
 <h1>Добавить ученика</h1>
 <form method="POST">
-    Фамилия: <input type="text" name="last_name" required oninput="capitalizeFirst(this)"><br>
-    Имя: <input type="text" name="first_name" required oninput="capitalizeFirst(this)"><br>
-    Отчество: <input type="text" name="middle_name" oninput="capitalizeFirst(this)"><br>
-    Контакты: <input type="text" name="contacts"><br>
-    День рождения: <input type="date" name="birthday"><br>
-    Кол-во занятий: <input type="number" name="lessons_count"><br>
-    Доп. информация: <input type="text" name="additional_info"><br>
-    <button type="submit">Сохранить</button>
+    <label>Фамилия: <input type="text" name="last_name" required oninput="capitalizeFirst(this)"></label><br><br>
+    <label>Имя: <input type="text" name="first_name" required oninput="capitalizeFirst(this)"></label><br><br>
+    <label>Отчество: <input type="text" name="middle_name" oninput="capitalizeFirst(this)"></label><br><br>
+    <label>Контакты: <input type="text" name="contacts"></label><br><br>
+    <label>День рождения: <input type="date" name="birthday"></label><br><br>
+    <label>Кол-во занятий: <input type="number" name="lessons_count"></label><br><br>
+    <label>Доп. информация: <input type="text" name="additional_info"></label><br><br>
+    <button type="submit">💾 Сохранить</button>
 </form>
-<a href="{{ url_for('students') }}">Назад</a>
-</body>
-</html>
-
+<br>
+<a href="{{ url_for('students') }}">⬅ Назад</a>
 <script>
 function capitalizeFirst(input) {
     if (input.value.length > 0) {
@@ -29,3 +25,6 @@ function capitalizeFirst(input) {
     }
 }
 </script>
+{% endblock %}
+
+

@@ -1,27 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Добавить занятие{% endblock %}
+{% block content %}
 <h1>Добавить занятие</h1>
 
 <form method="post">
-Дата:
-<input type="date" name="date" required><br>
+    <label>Дата:<input type="date" name="date" required><br><br></label>
+    <label>Тренер:<select name="coach_id">
+        {% for c in coaches %}
+        <option value="{{ c.id }}">{{ c.last_name }} {{ c.first_name }}</option>
+        {% endfor %}
+    </select>
+    </label><br><br>
 
-Тренер:
-<select name="coach_id">
-{% for c in coaches %}
-<option value="{{ c.id }}">{{ c.last_name }} {{ c.first_name }}</option>
-{% endfor %}
-</select><br>
+    <label>Ученики:<br>
+        {% for s in students %}
+        <input type="checkbox" name="student_ids" value="{{ s.id }}">
+        {{ s.last_name }} {{ s.first_name }}<br>
+        {% endfor %}
+    </label>
 
-Ученики:<br>
-{% for s in students %}
-<input type="checkbox" name="student_ids" value="{{ s.id }}">
-{{ s.last_name }} {{ s.first_name }}<br>
-{% endfor %}
+    <label>Статус:
+        <select name="status">
+            <option>Запланировано</option>
+            <option>Состоялось</option>
+        </select>
+    </label><br><br>
 
-Статус:
-<select name="status">
-<option>Запланировано</option>
-<option>Состоялось</option>
-</select><br>
-
-<button type="submit">Сохранить</button>
+    <button type="submit">💾 Сохранить</button>
 </form>
+<br>
+<a href="{{ url_for('lessons') }}">⬅ Назад</a>
+{% endblock %}

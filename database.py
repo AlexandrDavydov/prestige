@@ -453,8 +453,8 @@ def store_purchased_card(card_id, student_id):
 
 
 def add_lesson_from_template(lesson_template_id):
-    conn = get_connection()
     lesson_template = get_lesson_template_by_id(lesson_template_id)
+    conn = get_connection()
     conn.execute("""
         INSERT INTO lessons (date, coach_id, student_ids, status)
         VALUES (?, ?, ?, ?)

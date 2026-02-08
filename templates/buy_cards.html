@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Покупка абонемента</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Покупка абонемента{% endblock %}
+{% block content %}
 
 <h1>Покупка абонемента</h1>
 
@@ -35,9 +31,6 @@
             Статус: {{ card.status }}
         </div>
     </button>
-
 </form>
 {% endfor %}
-
-</body>
-</html>
+{% endblock %}

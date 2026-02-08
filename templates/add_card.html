@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Добавить карточку</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Добавить Абонемент{% endblock %}
+{% block content %}
 <h1>Добавить Абонемент</h1>
 <form method="POST">
-    Название: <input type="text" name="name" required><br>
-    Цена: <input type="number" name="price" required><br>
-    Кол-во занятий: <input type="number" name="lessons_count" required><br>
-    Длительность: <input type="text" name="duration" required><br>
-    Цвет: <input type="text" name="color"><br>
+    <label>Название: <input type="text" name="name" required><br><br></label>
+    <label>Цена: <input type="number" name="price" required><br><br></label>
+    <label>Кол-во занятий: <input type="number" name="lessons_count" required><br><br></label>
+    <label>Длительность: <input type="text" name="duration" required><br><br></label>
+    <label>Цвет: <input type="text" name="color"><br><br></label>
     Статус:
     <select name="status">
         <option>Черновик</option>
         <option>Активна</option>
         <option>Архив</option>
     </select><br>
-    <button type="submit">Сохранить</button>
+    <button type="submit">💾 Сохранить</button>
 </form>
-<a href="{{ url_for('cards') }}">Назад</a>
-</body>
-</html>
+<br>
+<a href="{{ url_for('cards') }}">⬅ Назад</a>
+{% endblock %}

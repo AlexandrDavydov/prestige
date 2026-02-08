@@ -6,7 +6,7 @@ import database as db
 app = Flask(__name__)
 app.secret_key = "super-secret-key-l#aksjd@lakjsd"
 USERNAME = "admin"
-PASSWORD = "1234"
+PASSWORD = "g@z"
 
 # Инициализация базы данных
 db.init_db()

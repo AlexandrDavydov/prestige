@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Шаблоны занятий</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Шаблоны занятий{% endblock %}
+{% block content %}
 <h1>Шаблоны занятий</h1>
-<a href="{{ url_for('add_lesson_template') }}">Добавить шаблон занятия</a>
+<a href="{{ url_for('add_lesson_template') }}">➕ Добавить шаблон занятия</a>
 
 <table border="1">
 <tr>
@@ -44,6 +40,6 @@
 </tr>
 {% endfor %}
 </table>
-<a href="{{ url_for('index') }}">Главная</a>
-</body>
-</html>
+<br>
+<a href="{{ url_for('index') }}">⬅ Главная</a>
+{% endblock %}

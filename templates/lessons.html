@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Занятия</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Занятия{% endblock %}
+{% block content %}
 <h1>Занятия</h1>
-<a href="{{ url_for('add_lesson') }}">Добавить занятие</a>
+<a href="{{ url_for('add_lesson') }}">➕ Добавить занятие</a>
 
 <form method="get" action="{{ url_for('lessons') }}">
     <label for="status_filter">Фильтр по статусу:</label>
@@ -24,7 +20,6 @@
   <th>Тренер</th>
   <th>Ученики</th>
   <th>Статус</th>
-  <th></th>
 </tr>
 
 {% for l in lessons %}
@@ -63,13 +58,10 @@
     {% endfor %}
 </select>
 
-<a href="#"
-   class="btn"
-   onclick="addFromTemplate()">➕ Добавить из шаблона</a>
+<a href="#" class="btn" onclick="addFromTemplate()">📋 Добавить из шаблона</a>
 <br>
-<a href="{{ url_for('index') }}">Главная</a>
-</body>
-</html>
+<br>
+<a href="{{ url_for('index') }}">⬅ Главная</a>
 <script>
 function addFromTemplate() {
     const select = document.getElementById("lesson_template_select");
@@ -77,3 +69,5 @@ function addFromTemplate() {
     window.location.href = `/lesson_template/add/${id}`;
 }
 </script>
+{% endblock %}
+
