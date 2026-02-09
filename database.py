@@ -151,6 +151,19 @@ def get_student_by_id(student_id):
     return student
 
 
+def is_student_exists(first_name, last_name):
+    conn = get_connection()
+    student = conn.execute("""
+                           SELECT 1
+                           FROM students
+                           WHERE first_name = ?
+                             AND last_name = ? LIMIT 1
+                           """, (first_name, last_name)).fetchone()
+    conn.close()
+
+    return student is not None
+
+
 def add_student(first_name, last_name, middle_name, contacts, birthday, lessons_count, additional_info):
     conn = get_connection()
     conn.execute("""
