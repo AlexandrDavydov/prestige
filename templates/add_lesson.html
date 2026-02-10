@@ -14,8 +14,10 @@
 
     <label>Ученики:<br>
         {% for s in students %}
-        <input type="checkbox" name="student_ids" value="{{ s.id }}">
-        {{ s.last_name }} {{ s.first_name }}<br>
+        <label>
+            <input type="checkbox" name="student_ids" value="{{ s.id }}">
+            {{ s.last_name }} {{ s.first_name }}
+        </label><br>
         {% endfor %}
     </label>
 

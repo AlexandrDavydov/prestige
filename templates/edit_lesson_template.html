@@ -4,28 +4,31 @@
 <h1>Редактировать шаблон занятия</h1>
 
 <form method="post">
-Название:
-<input type="text" name="template_name" value="{{ lesson_template.template_name }}">
-<br>
-Тренер:
-<select name="coach_id">
-{% for c in coaches %}
-<option value="{{ c.id }}"
-{% if c.id == lesson_template.coach_id %}selected{% endif %}>
-{{ c.last_name }} {{ c.first_name }}
-</option>
-{% endfor %}
-</select><br>
+    Название:
+    <input type="text" name="template_name" value="{{ lesson_template.template_name }}">
+    <br>
+    Тренер:
+    <select name="coach_id">
+        {% for c in coaches %}
+        <option value="{{ c.id }}"
+                {% if c.id== lesson_template.coach_id %}selected{% endif %}>
+            {{ c.last_name }} {{ c.first_name }}
+        </option>
+        {% endfor %}
+    </select><br>
 
-Ученики:<br>
-{% set ids = lesson_template.student_ids.split(',') %}
-{% for s in students %}
-<input type="checkbox" name="student_ids" value="{{ s.id }}"
-{% if s.id|string in ids %}checked{% endif %}>
-{{ s.last_name }} {{ s.first_name }}<br>
-{% endfor %}
+    Ученики:<br>
+    {% set ids = lesson_template.student_ids.split(',') %}
+    {% for s in students %}
+    <label>
+        <input type="checkbox" name="student_ids" value="{{ s.id }}"
+               {% if s.id|string in ids %}checked{% endif %}>
+        {{ s.last_name }} {{ s.first_name }}
+    </label>
+    <br>
+    {% endfor %}
 
-<button type="submit">💾 Сохранить</button>
+    <button type="submit">💾 Сохранить</button>
 </form>
 <br>
 <a href="{{ url_for('lesson_templates') }}">⬅ Назад</a>

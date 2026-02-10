@@ -159,7 +159,7 @@ def add_coach():
         db.add_coach(request.form["first_name"], request.form["last_name"], request.form["middle_name"], request.form["contacts"],
             request.form["birthday"], request.form["lessons_count"], request.form["lessons_paid"], request.form["student_payment"],
             request.form["additional_info"])
-        flash("Тренер " + request.form["last_name"] + " " + request.form["first_name"] + " добавлен!", "success")
+        flash("Тренер <b>" + request.form["last_name"] + " " + request.form["first_name"] + "</b> добавлен!", "success")
         return redirect(url_for("coaches"))
     return render_template("add_coach.html")
 
@@ -182,7 +182,7 @@ def edit_coach(coach_id):
 @login_required
 def delete_coach(coach_id):
     db.delete_coach(coach_id)
-    flash("Тренер <b>" + request.form["last_name"] + " " + request.form["first_name"] + "</b> удален!", "success")
+    flash("Тренер удален!", "success")
     return redirect(url_for("coaches"))
 
 
@@ -222,6 +222,7 @@ def lessons():
 def add_lesson():
     if request.method == "POST":
         db.add_lesson(request.form["date"], request.form["coach_id"], request.form.getlist("student_ids"), request.form["status"])
+        flash("Занятие запланированно!", "success")
         return redirect(url_for("lessons"))
     return render_template("add_lesson.html", students=db.get_all_students(), coaches=db.get_all_coaches())
 
@@ -232,6 +233,7 @@ def edit_lesson(lesson_id):
     if request.method == "POST":
         db.update_lesson(lesson_id, request.form["date"], request.form["coach_id"], request.form.getlist("student_ids"),
             request.form["status"])
+        flash("Занятие успешно отредактированно!", "success")
         return redirect(url_for("lessons"))
 
     return render_template("edit_lesson.html", lesson=lesson, students=db.get_all_students(),
@@ -241,6 +243,7 @@ def edit_lesson(lesson_id):
 @login_required
 def delete_lesson(lesson_id):
     db.delete_lesson(lesson_id)
+    flash("Занятие удалено!", "success")
     return redirect(url_for("lessons"))
 
 @app.route("/lessons/<int:lesson_id>/done", methods=["GET", "POST"])
@@ -249,6 +252,7 @@ def lesson_done(lesson_id):
     db.decrement_lessons_from_students(lesson_id)
     db.increment_lessons_to_couch(lesson_id)
     db.close_lessons(lesson_id)
+    flash("Занятие помечено как <b>состоявшееся</b>!", "success")
     return redirect(request.referrer or url_for("lessons"))
 
 
@@ -275,6 +279,7 @@ def lesson_templates():
 def add_lesson_template():
     if request.method == "POST":
         db.add_lesson_template(request.form["template_name"], request.form["coach_id"], request.form.getlist("student_ids"),)
+        flash("Шаблон занятия<b>"+request.form["template_name"]+" </b>добавлен!", "success")
         return redirect(url_for("lesson_templates"))
 
     return render_template("add_lesson_template.html", students=db.get_all_students(),
@@ -288,6 +293,7 @@ def edit_lesson_template(lesson_template_id):
         db.update_lesson_template(lesson_template_id, request.form["template_name"], request.form["coach_id"],
             request.form.getlist("student_ids"),
         )
+        flash("Шаблон занятия<b>" + request.form["template_name"] + " </b>изменен!", "success")
         return redirect(url_for("lesson_templates"))
 
     return render_template("edit_lesson_template.html", lesson_template=lesson_template,
@@ -297,6 +303,7 @@ def edit_lesson_template(lesson_template_id):
 @login_required
 def delete_lesson_template(lesson_template_id):
     db.delete_lesson_template(lesson_template_id)
+    flash("Шаблон занятия удален!", "success")
     return redirect(url_for("lesson_templates"))
 
 @app.template_filter("ru_date")
@@ -312,7 +319,6 @@ def ru_date(value):
             pass
 
     return value  # если формат неожиданный
-
 
 if __name__ == "__main__":
     app.run(debug=True)
