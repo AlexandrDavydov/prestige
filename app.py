@@ -64,7 +64,7 @@ def add_card():
         db.create_card(request.form["name"], request.form["price"], request.form["lessons_count"], request.form["duration"],
             request.form["color"],request.form["status"]
         )
-        flash("Карточка с названием<b> "+request.form["name"]+" </b>создана!", "success")
+        flash("Абонемент с названием<b> "+request.form["name"]+" </b>создан!", "success")
         return redirect(url_for("cards"))
     return render_template("add_card.html")
 
@@ -76,7 +76,7 @@ def edit_card(card_id):
         db.update_card(card_id, request.form["name"], request.form["price"], request.form["lessons_count"],
             request.form["duration"], request.form["color"], request.form["status"]
         )
-        flash("Карточка с названием<b> "+request.form["name"]+" </b>обновлена!", "success")
+        flash("Абонемент с названием<b> "+request.form["name"]+" </b>обновлен!", "success")
         return redirect(url_for("cards"))
     return render_template("edit_card.html", card=card)
 
@@ -84,7 +84,7 @@ def edit_card(card_id):
 @login_required
 def delete_card(card_id):
     db.delete_card(card_id)
-    flash("Карточка удалена!", "success")
+    flash("Абонемент удален!", "success")
     return redirect(url_for("cards"))
 
 # ======= Students =======
@@ -279,7 +279,7 @@ def lesson_templates():
 def add_lesson_template():
     if request.method == "POST":
         db.add_lesson_template(request.form["template_name"], request.form["coach_id"], request.form.getlist("student_ids"),)
-        flash("Шаблон занятия<b>"+request.form["template_name"]+" </b>добавлен!", "success")
+        flash("Шаблон занятия<b> "+request.form["template_name"]+" </b>добавлен!", "success")
         return redirect(url_for("lesson_templates"))
 
     return render_template("add_lesson_template.html", students=db.get_all_students(),
@@ -293,7 +293,7 @@ def edit_lesson_template(lesson_template_id):
         db.update_lesson_template(lesson_template_id, request.form["template_name"], request.form["coach_id"],
             request.form.getlist("student_ids"),
         )
-        flash("Шаблон занятия<b>" + request.form["template_name"] + " </b>изменен!", "success")
+        flash("Шаблон занятия<b> " + request.form["template_name"] + " </b>изменен!", "success")
         return redirect(url_for("lesson_templates"))
 
     return render_template("edit_lesson_template.html", lesson_template=lesson_template,

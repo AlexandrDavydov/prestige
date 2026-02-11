@@ -14,47 +14,47 @@
 </form>
 
 <table border="1">
-<tr>
-  <th>ID</th>
-  <th>Дата</th>
-  <th>Тренер</th>
-  <th>Ученики</th>
-  <th>Статус</th>
-</tr>
+    <tr>
+        <th>ID</th>
+        <th>Дата</th>
+        <th>Тренер</th>
+        <th>Ученики</th>
+        <th>Статус</th>
+    </tr>
 
-{% for l in lessons %}
-<tr>
-  <td>{{ l.id }}</td>
-  <td>{{ l.date | ru_date }}</td>
-  <td>
-    {% for c in coaches %}
-      {% if c.id == l.coach_id %}
-        {{ c.last_name }} {{ c.first_name }}
-      {% endif %}
+    {% for l in lessons %}
+    <tr>
+        <td>{{ l.id }}</td>
+        <td>{{ l.date | ru_date }}</td>
+        <td>
+            {% for c in coaches %}
+            {% if c.id == l.coach_id %}
+            {{ c.last_name }} {{ c.first_name }}
+            {% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            {% set ids = l.student_ids.split(',') %}
+            {% for s in students %}
+            {% if s.id|string in ids %}
+            {{ s.last_name }} {{ s.first_name }}<br>
+            {% endif %}
+            {% endfor %}
+        </td>
+        <td>{{ l.status }}</td>
+        <td>
+            <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">✅</a>
+            <a href="{{ url_for('edit_lesson', lesson_id=l.id) }}" title="Редактировать">✏️</a>
+            <a href="#" class="delete-btn" data-url="{{  url_for('delete_lesson', lesson_id=l.id)  }}">🗑️</a>
+        </td>
+    </tr>
     {% endfor %}
-  </td>
-<td>
-  {% set ids = l.student_ids.split(',') %}
-  {% for s in students %}
-    {% if s.id|string in ids %}
-      {{ s.last_name }} {{ s.first_name }}<br>
-    {% endif %}
-  {% endfor %}
-</td>
-  <td>{{ l.status }}</td>
-  <td>
-    <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">✅</a>
-    <a href="{{ url_for('edit_lesson', lesson_id=l.id) }}" title="Редактировать">✏️</a>
-    <a href="{{ url_for('delete_lesson', lesson_id=l.id) }}" title="Удалить">🗑️</a>
-  </td>
-</tr>
-{% endfor %}
 </table>
 
 Шаблоны:
 <select id="lesson_template_select">
     {% for l in lesson_templates %}
-        <option value="{{ l.id }}">{{ l.template_name }}</option>
+    <option value="{{ l.id }}">{{ l.template_name }}</option>
     {% endfor %}
 </select>
 
@@ -63,11 +63,11 @@
 <br>
 <a href="{{ url_for('index') }}">⬅ Главная</a>
 <script>
-function addFromTemplate() {
-    const select = document.getElementById("lesson_template_select");
-    const id = select.value;
-    window.location.href = `/lesson_template/add/${id}`;
-}
+    function addFromTemplate() {
+        const select = document.getElementById("lesson_template_select");
+        const id = select.value;
+        window.location.href = `/lesson_template/add/${id}`;
+    }
 </script>
 {% endblock %}
 
