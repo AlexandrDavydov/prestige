@@ -63,6 +63,7 @@ def init_db():
                    CREATE TABLE IF NOT EXISTS lessons
                    (
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       lesson_name TEXT NOT NULL,
                        date TEXT NOT NULL,
                        coach_id INTEGER NOT NULL,
                        student_ids TEXT,
@@ -326,22 +327,22 @@ def get_lesson_by_id(lesson_id):
     conn.close()
     return lesson
 
-def add_lesson(date, coach_id, student_ids, status):
+def add_lesson(date, lesson_name, coach_id, student_ids, status):
     conn = get_connection()
     conn.execute("""
-        INSERT INTO lessons (date, coach_id, student_ids, status)
-        VALUES (?, ?, ?, ?)
-    """, (date, coach_id, ",".join(student_ids), status))
+        INSERT INTO lessons (date, lesson_name, coach_id, student_ids, status)
+        VALUES (?, ?, ?, ?, ?)
+    """, (date, lesson_name, coach_id, ",".join(student_ids), status))
     conn.commit()
     conn.close()
 
-def update_lesson(lesson_id, date, coach_id, student_ids, status):
+def update_lesson(lesson_id, lesson_name, date, coach_id, student_ids, status):
     conn = get_connection()
     conn.execute("""
         UPDATE lessons
-        SET date=?, coach_id=?, student_ids=?, status=?
+        SET date=?, lesson_name=?, coach_id=?, student_ids=?, status=?
         WHERE id=?
-    """, (date, coach_id, ",".join(student_ids), status, lesson_id))
+    """, (date, lesson_name, coach_id, ",".join(student_ids), status, lesson_id))
     conn.commit()
     conn.close()
 
@@ -469,8 +470,8 @@ def add_lesson_from_template(lesson_template_id):
     lesson_template = get_lesson_template_by_id(lesson_template_id)
     conn = get_connection()
     conn.execute("""
-        INSERT INTO lessons (date, coach_id, student_ids, status)
-        VALUES (?, ?, ?, ?)
-    """, (datetime.now().strftime("%Y-%m-%d"), lesson_template["coach_id"], lesson_template["student_ids"], "Запланировано"))
+        INSERT INTO lessons (date, lesson_name, coach_id, student_ids, status)
+        VALUES (?, ?, ?, ?, ?)
+    """, (datetime.now().strftime("%Y-%m-%d"), lesson_template["template_name"], lesson_template["coach_id"], lesson_template["student_ids"], "Запланировано"))
     conn.commit()
     conn.close()

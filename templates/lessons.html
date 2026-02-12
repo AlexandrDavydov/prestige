@@ -20,9 +20,13 @@
         <th>Тренер</th>
         <th>Ученики</th>
         <th>Статус</th>
+        <th>Действия</th>
     </tr>
 
     {% for l in lessons %}
+        <tr>
+        <td colspan="6" >{{ l.lesson_name }}</td>
+    </tr>
     <tr>
         <td>{{ l.id }}</td>
         <td>{{ l.date | ru_date }}</td>

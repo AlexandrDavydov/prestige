@@ -4,9 +4,8 @@
 <h1>Редактировать занятие</h1>
 
 <form method="post">
-    Дата:
-    <input type="date" name="date" value="{{ lesson.date }}"><br>
-
+    <label>Дата:<input type="date" name="date" value="{{ lesson.date }}"></label>><br><br>
+    <label>Название: <input type="text" name="lesson_name" value="{{ lesson.lesson_name }}" required></label><br><br>
     Тренер:
     <select name="coach_id">
         {% for c in coaches %}

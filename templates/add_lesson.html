@@ -5,6 +5,7 @@
 
 <form method="post">
     <label>Дата:<input type="date" name="date" required><br><br></label>
+    <label>Название: <input type="text" name="lesson_name" required><br><br></label>
     <label>Тренер:<select name="coach_id">
         {% for c in coaches %}
         <option value="{{ c.id }}">{{ c.last_name }} {{ c.first_name }}</option>

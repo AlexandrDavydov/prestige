@@ -221,7 +221,7 @@ def lessons():
 @login_required
 def add_lesson():
     if request.method == "POST":
-        db.add_lesson(request.form["date"], request.form["coach_id"], request.form.getlist("student_ids"), request.form["status"])
+        db.add_lesson(request.form["date"], request.form["lesson_name"], request.form["coach_id"], request.form.getlist("student_ids"), request.form["status"])
         flash("Занятие запланированно!", "success")
         return redirect(url_for("lessons"))
     return render_template("add_lesson.html", students=db.get_all_students(), coaches=db.get_all_coaches())
@@ -231,7 +231,7 @@ def add_lesson():
 def edit_lesson(lesson_id):
     lesson = db.get_lesson_by_id(lesson_id)
     if request.method == "POST":
-        db.update_lesson(lesson_id, request.form["date"], request.form["coach_id"], request.form.getlist("student_ids"),
+        db.update_lesson(lesson_id, request.form["lesson_name"], request.form["date"], request.form["coach_id"], request.form.getlist("student_ids"),
             request.form["status"])
         flash("Занятие успешно отредактированно!", "success")
         return redirect(url_for("lessons"))
