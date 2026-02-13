@@ -1,10 +1,58 @@
 {% extends "base.html" %}
+
 {% block title %}Главная{% endblock %}
+
 {% block content %}
+
 <h1>Главная</h1>
-<a href="{{ url_for('cards') }}">Абонементы</a><br>
-<a href="{{ url_for('lesson_templates') }}">Шаблоны занятий</a><br>
-<a href="{{ url_for('students') }}">Ученики</a><br>
-<a href="{{ url_for('coaches') }}">Тренеры</a><br>
-<a href="{{ url_for('lessons') }}">Занятия</a><br>
+
+<div class="widget">
+    <div class="widget-header">
+        🎂 Дни рождения
+    </div>
+
+    <div class="widget-body">
+
+        <div class="birthday-column">
+            <h4>Вчера</h4>
+            {% if birthdays_yesterday %}
+                <ul>
+                    {% for s in birthdays_yesterday %}
+                        <li>{{ s["last_name"] }} {{ s["first_name"] }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty">Нет</p>
+            {% endif %}
+        </div>
+
+        <div class="birthday-column today">
+            <h4>Сегодня</h4>
+            {% if birthdays_today %}
+                <ul>
+                    {% for s in birthdays_today %}
+                        <li>{{ s["last_name"] }} {{ s["first_name"] }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty">Нет</p>
+            {% endif %}
+        </div>
+
+        <div class="birthday-column">
+            <h4>Завтра</h4>
+            {% if birthdays_tomorrow %}
+                <ul>
+                    {% for s in birthdays_tomorrow %}
+                        <li>{{ s["last_name"] }} {{ s["first_name"] }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty">Нет</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
 {% endblock %}

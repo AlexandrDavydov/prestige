@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import database as db
+from database import get_all_students
 
 app = Flask(__name__)
 app.secret_key = "super-secret-key-l#aksjd@lakjsd"
@@ -29,13 +30,46 @@ def login_required(fn):
         return fn(*args, **kwargs)
     wrapper.__name__ = fn.__name__
     return wrapper
+#========================================
+def filter_birthdays(students, target_date):
+    result = []
 
+    for s in students:
+        birthday = parse_birthday(s["birthday"])
+
+        if birthday and \
+           birthday.month == target_date.month and \
+           birthday.day == target_date.day:
+            result.append(s)
+
+    return result
+
+def parse_birthday(value):
+    if not value:
+        return None
+
+    try:
+        if isinstance(value, date):
+            return value  # если вдруг уже date
+        return datetime.strptime(value, "%Y-%m-%d").date()
+    except (ValueError, TypeError):
+        return None
 # ======= Главная =======
 @app.route("/index")
 @login_required
 def index():
-    return render_template("index.html")
+    students = get_all_students()
 
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    tomorrow = today + timedelta(days=1)
+
+    return render_template(
+        "index.html",
+        birthdays_yesterday=filter_birthdays(students, yesterday),
+        birthdays_today=filter_birthdays(students, today),
+        birthdays_tomorrow=filter_birthdays(students, tomorrow)
+    )
 # ======= Cards =======
 @app.route("/cards")
 @login_required
@@ -322,4 +356,4 @@ def ru_date(value):
     return value  # если формат неожиданный
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

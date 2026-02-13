@@ -3,6 +3,7 @@ body {
     margin: 20px;
     background: #f7f7f7;
 }
+
 table {
     border-collapse: collapse;
 }
@@ -11,7 +12,8 @@ td, th {
     padding: 8px 12px;
     text-align: left;
 }
-.table-title{
+
+.table-title {
     background: #003B24;
     color: white;
     font-weight: bold
@@ -137,3 +139,75 @@ td, th {
     color: white;
     font-weight: bold
 }
+
+nav {
+    background-color: #1f2937;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 25px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+/* 🔹 Общий виджет */
+.widget {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+/* Заголовок */
+.widget-header {
+    background: #1f2937;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Тело виджета */
+.widget-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Колонки */
+.birthday-column {
+    flex: 1;
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.birthday-column h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Подсветка сегодняшнего дня */
+.today {
+    border: 2px solid #38bdf8;
+    background: #eef9ff;
+}
+
+/* Списки */
+.birthday-column ul {
+    padding-left: 18px;
+    margin: 0;
+}
+
+.empty {
+    color: #9ca3af;
+    font-style: italic;
+}
+
