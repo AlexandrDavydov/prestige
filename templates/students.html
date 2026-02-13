@@ -6,15 +6,15 @@
 <h1>Ученики</h1>
 <a href="{{ url_for('add_student') }}">➕ Добавить ученика</a><br><br>
 <table border="1">
-    <tr>
+    <tr class="table-title">
         <th>ID</th>
         <th>Фамилия</th>
         <th>Имя</th>
         <th>Отчество</th>
         <th>Контакты</th>
-        <th>День рождения</th>
+        <th>День рожд.</th>
         <th>Кол-во занятий</th>
-        <th>Доп. информация</th>
+        <th>Доп. инфо</th>
         <th>Действия</th>
     </tr>
     {% for student in students %}
@@ -36,5 +36,4 @@
     {% endfor %}
 </table>
 <br>
-<a href="{{ url_for('index') }}">⬅ Главная</a>
 {% endblock %}

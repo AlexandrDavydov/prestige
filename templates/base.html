@@ -7,9 +7,9 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+<a href="{{ url_for('index') }}">⬅ Главная</a>
 <a href="{{ url_for('logout') }}">🚪 Выйти</a>
 <div class="container">
-
     <!-- Flash сообщения -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}

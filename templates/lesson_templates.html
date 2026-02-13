@@ -5,7 +5,7 @@
 <a href="{{ url_for('add_lesson_template') }}">➕ Добавить шаблон занятия</a>
 
 <table border="1">
-    <tr>
+    <tr class="table-title">
         <th>ID</th>
         <th>Тренер</th>
         <th>Ученики</th>
@@ -14,7 +14,7 @@
 
     {% for l in lesson_templates %}
     <tr>
-        <td colspan="4" >{{ l.template_name }}</td>
+        <td class="section_title" colspan="4" >{{ l.template_name }}</td>
     </tr>
     <tr>
         <td>{{ l.id }}</td>
@@ -43,5 +43,4 @@
     {% endfor %}
 </table>
 <br>
-<a href="{{ url_for('index') }}">⬅ Главная</a>
 {% endblock %}

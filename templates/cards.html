@@ -4,7 +4,7 @@
 <h1>Абонементы</h1>
 <a href="{{ url_for('add_card') }}">➕ Добавить Абонемент</a><br><br>
 <table border="1">
-    <tr>
+    <tr class="table-title">
         <th>ID</th>
         <th>Название</th>
         <th>Цена</th>
@@ -31,5 +31,4 @@
     {% endfor %}
 </table>
 <br>
-<a href="{{ url_for('index') }}">⬅ Главная</a>
 {% endblock %}

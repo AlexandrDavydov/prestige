@@ -14,7 +14,7 @@
 </form>
 
 <table border="1">
-    <tr>
+    <tr class="table-title">
         <th>ID</th>
         <th>Дата</th>
         <th>Тренер</th>
@@ -24,9 +24,7 @@
     </tr>
 
     {% for l in lessons %}
-        <tr>
-        <td colspan="6" >{{ l.lesson_name }}</td>
-    </tr>
+        <tr class="section_title"><td colspan="6" >{{ l.lesson_name }}</td></tr>
     <tr>
         <td>{{ l.id }}</td>
         <td>{{ l.date | ru_date }}</td>
@@ -65,7 +63,6 @@
 <a href="#" class="btn" onclick="addFromTemplate()">📋 Добавить из шаблона</a>
 <br>
 <br>
-<a href="{{ url_for('index') }}">⬅ Главная</a>
 <script>
     function addFromTemplate() {
         const select = document.getElementById("lesson_template_select");

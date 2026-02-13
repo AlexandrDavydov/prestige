@@ -3,6 +3,19 @@ body {
     margin: 20px;
     background: #f7f7f7;
 }
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 8px 12px;
+    text-align: left;
+}
+.table-title{
+    background: #003B24;
+    color: white;
+    font-weight: bold
+}
 
 .container {
     max-width: 1100px;
@@ -91,4 +104,36 @@ body {
 .modal-content button:last-child {
     background-color: #6c757d;
     color: white;
+}
+
+.btn {
+    all: unset;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #FFFFFF;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.2s;
+    border: 2px solid #01804E;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #dddddd;
+    color: black;
+}
+
+.btn:active {
+    background-color: #01804E;
+    color: white;
+}
+
+.section_title {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #01804E;
+    color: white;
+    font-weight: bold
 }

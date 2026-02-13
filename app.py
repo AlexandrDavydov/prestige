@@ -47,6 +47,7 @@ def cards():
 @login_required
 def buy_cards(student_id):
     cards = db.get_all_cards()
+    flash("Абонемент успешно добавлен!", "success")
     return render_template("buy_cards.html", cards=cards, student_id=student_id)
 
 @app.route("/cards/purchased/", methods=["GET", "POST"])

@@ -6,15 +6,15 @@
 <a href="{{ url_for('add_coach') }}">➕ Добавить тренера</a><br><br>
 
 <table border="1" cellpadding="6">
-    <tr>
+    <tr class="table-title">
         <th>ID</th>
         <th>Фамилия</th>
         <th>Имя</th>
         <th>Отчество</th>
         <th>Контакты</th>
         <th>Дата рожд.</th>
-        <th>Проведенные</th>
-        <th>Оплаченные</th>
+        <th>Провед.</th>
+        <th>Опл.</th>
         <th>За 1 чел</th>
         <th>Доп.</th>
         <th>Долг по з.п.</th>
@@ -45,5 +45,4 @@
     {% endfor %}
 </table>
 <br>
-<a href="{{ url_for('index') }}">⬅ Главная</a>
 {% endblock %}
