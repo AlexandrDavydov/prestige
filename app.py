@@ -7,9 +7,13 @@ app = Flask(__name__)
 app.secret_key = "super-secret-key-l#aksjd@lakjsd"
 USERNAME = "admin"
 PASSWORD = "g@z"
+ver = "1.0.0"
 
 db.init_db()
 # ===============login=====================
+@app.route("/version", methods=["GET"])
+def version():
+    return "version: " + ver
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
