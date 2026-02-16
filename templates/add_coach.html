@@ -4,9 +4,9 @@
 <h1>Добавить тренера</h1>
 
 <form method="POST">
-    <label>Фамилия:<input type="text" name="last_name" required></label><br><br>
-    <label>Имя:<input type="text" name="first_name" required></label><br><br>
-    <label>Отчество:<input type="text" name="middle_name"></label><br><br>
+    <label>Фамилия:<input type="text" name="last_name" required oninput="capitalizeFirst(this)"></label><br><br>
+    <label>Имя:<input type="text" name="first_name" required oninput="capitalizeFirst(this)"></label><br><br>
+    <label>Отчество:<input type="text" name="middle_name" required oninput="capitalizeFirst(this)"></label><br><br>
     <label>Контакты:<input type="text" name="contacts"></label><br><br>
     <label>День рождения:<input type="date" name="birthday"></label><br><br>
     <label>Кол-во проведённых занятий:<input type="number" name="lessons_count" value="0"></label><br><br>
@@ -17,4 +17,5 @@
     <a href="{{ url_for('coaches') }}" class="btn">❌ Отмена</a>
 </form>
 <br>
+<script src="../static/js/common.js"></script>
 {% endblock %}

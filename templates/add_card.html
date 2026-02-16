@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Добавить Абонемент</h1>
 <form method="POST">
-    <label>Название: <input type="text" name="name" required><br><br></label>
+    <label>Название: <input type="text" name="name" required oninput="capitalizeFirst(this)"><br><br></label>
     <label>Цена: <input type="number" name="price" required><br><br></label>
     <label>Кол-во занятий: <input type="number" name="lessons_count" required><br><br></label>
     <label>Длительность: <input type="text" name="duration" required><br><br></label>
@@ -13,9 +13,12 @@
         <option>Черновик</option>
         <option>Активна</option>
         <option>Архив</option>
-    </select><br>
-    <button type="submit">💾 Сохранить</button>
-    <a href="{{ url_for('cards') }}" class="btn-cancel">❌ Отмена</a>
+    </select>
+    <br>
+    <br>
+    <button type="submit" class="btn">💾 Сохранить</button>
+    <a href="{{ url_for('cards') }}" class="btn">❌ Отмена</a>
 </form>
+<script src="../static/js/common.js"></script>
 <br>
 {% endblock %}
