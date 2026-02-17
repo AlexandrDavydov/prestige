@@ -1,5 +1,8 @@
+import io
 from datetime import datetime, timedelta, date
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
+from openpyxl import Workbook
+
 import database as db
 from database import get_all_students
 
@@ -235,6 +238,21 @@ def give_money_to_coach(coach_id):
 
 
 # ===== Lessons =====
+def generate_lesson_excel(lesson_id):
+    wb = Workbook()
+    ws = wb.active
+    ws.append(["Имя", "Возраст"])
+    ws.append(["Анна", 10])
+    ws.append(["Иван", 12])
+    file_stream = io.BytesIO()
+    wb.save(file_stream)
+    file_stream.seek(0)
+    return send_file(
+        file_stream,
+        as_attachment=True,
+        download_name=f'lesson_{lesson_id}.xlsx',
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
 @app.route("/lessons")
 @login_required
 def lessons():

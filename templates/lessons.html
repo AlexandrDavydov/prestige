@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Занятия{% endblock %}
 {% block content %}
-<h1>Занятия</h1>
+<h1>🧘‍♀️ Занятия</h1>
 <a href="{{ url_for('add_lesson') }}">➕ Добавить занятие</a>
 
 <form method="get" action="{{ url_for('lessons') }}">
@@ -58,6 +58,7 @@
         <td>
             <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">✅</a>
             <a href="{{ url_for('edit_lesson', lesson_id=l.id) }}" title="Редактировать">✏️</a>
+            <a href="#" onclick="downloadExcel({{ l.id }})">📋</a>
             <a href="#" class="delete-btn" data-url="{{  url_for('delete_lesson', lesson_id=l.id)  }}">🗑️</a>
         </td>
     </tr>
@@ -69,6 +70,19 @@
         const id = select.value;
         window.location.href = `/lesson_template/add/${id}`;
     }
+    function downloadExcel(lessonId) {
+    fetch('/generate_lesson_excel/' + lessonId)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lesson.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+}
 </script>
 {% endblock %}
 
