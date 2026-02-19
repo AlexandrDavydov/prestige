@@ -9,11 +9,12 @@ table {
 }
 
 td, th {
-    padding: 8px 12px;
+    padding: 6px 10px;
     text-align: left;
 }
 
 .table-title {
+    font-size: 150%;
     background: #003B24;
     color: white;
     font-weight: bold
@@ -134,9 +135,19 @@ td, th {
 
 .section_title {
     font-family: Arial, sans-serif;
+    font-size: 120%;
     margin: 20px;
     background: #01804E;
     color: white;
+    font-weight: bold
+}
+
+.section_sub_title {
+    font-family: Arial, sans-serif;
+    font-size: 100%;
+    margin: 20px;
+    background: #B7FEE2;
+    color: black;
     font-weight: bold
 }
 

@@ -4,33 +4,47 @@
 
 {% block content %}
 <h1>🏃‍Ученики</h1>
-<a href="{{ url_for('add_student') }}">➕ Добавить ученика</a><br><br>
+<a href="{{ url_for('add_student') }}" title="Добавить ученика">
+    <img src="{{ url_for('static', filename='images/add_icons.gif') }}"
+         alt="Добавить ученика"
+         width="50"
+         height="50">
+</a>
 <table border="1">
-    <tr class="table-title">
-        <th>ID</th>
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th>Отчество</th>
+    <tr class="section_sub_title">
+        <th>Ф.И.О.</th>
         <th>Контакты</th>
-        <th>День рожд.</th>
-        <th>Кол-во занятий</th>
-        <th>Доп. инфо</th>
+        <th>Д.Р.</th>
+        <th>Кол. з.</th>
+        <th>Доп.</th>
         <th>Действия</th>
     </tr>
     {% for student in students %}
     <tr>
-        <td>{{ student.id }}</td>
-        <td>{{ student.last_name }}</td>
-        <td>{{ student.first_name }}</td>
-        <td>{{ student.middle_name }}</td>
+        <td>{{ student.last_name }} {{ student.first_name }} {{ student.middle_name }}</td>
         <td>{{ student.contacts }}</td>
         <td>{{ student.birthday | ru_date }}</td>
         <td>{{ student.lessons_count }}</td>
         <td>{{ student.additional_info }}</td>
         <td>
-            <a href="{{ url_for('edit_student', student_id=student.id) }}">✏️</a>
-            <a href="#" class="delete-btn" data-url="{{ url_for('delete_student', student_id=student.id) }}">🗑️</a>
-            <a href="{{ url_for('buy_cards', student_id=student.id) }}">➕</a>
+            <a href="{{ url_for('buy_cards', student_id=student.id) }}" title="Продать абонемент">
+                <img src="{{ url_for('static', filename='images/card_icons.gif') }}"
+                     alt="Продать абонемент"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="{{ url_for('edit_student', student_id=student.id) }}" title="Редактировать">
+                <img src="{{ url_for('static', filename='images/edit_icons.gif') }}"
+                     alt="Редактировать"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="#" class="delete-btn" data-url="{{ url_for('delete_student', student_id=student.id) }}" title="Удалить">
+                <img src="{{ url_for('static', filename='images/delete_icons.gif') }}"
+                     alt="Удалить"
+                     width="50"
+                     height="50">
+            </a>
         </td>
     </tr>
     {% endfor %}

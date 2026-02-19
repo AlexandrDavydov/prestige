@@ -2,10 +2,14 @@
 {% block title %}Абонементы{% endblock %}
 {% block content %}
 <h1>🪪 Абонементы</h1>
-<a href="{{ url_for('add_card') }}">➕ Добавить Абонемент</a><br><br>
+<a href="{{ url_for('add_card') }}" title="Добавить абонемент">
+    <img src="{{ url_for('static', filename='images/add_icons.gif') }}"
+         alt="Добавить абонемент"
+         width="50"
+         height="50">
+</a>
 <table border="1">
-    <tr class="table-title">
-        <th>ID</th>
+    <tr class="section_sub_title">
         <th>Название</th>
         <th>Цена</th>
         <th>Занятия</th>
@@ -16,7 +20,6 @@
     </tr>
     {% for card in cards %}
     <tr>
-        <td>{{ card.id }}</td>
         <td>{{ card.name }}</td>
         <td>{{ card.price }}</td>
         <td>{{ card.lessons_count }}</td>
@@ -24,8 +27,18 @@
         <td>{{ card.color }}</td>
         <td>{{ card.status }}</td>
         <td>
-            <a href="{{ url_for('edit_card', card_id=card.id) }}">✏️</a>
-            <a href="#" class="delete-btn" data-url="{{  url_for('delete_card', card_id=card.id)  }}">🗑️</a>
+            <a href="{{ url_for('edit_card', card_id=card.id) }}" title="Редактировать">
+                <img src="{{ url_for('static', filename='images/edit_icons.gif') }}"
+                     alt="Редактировать"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="#" class="delete-btn" data-url="{{ url_for('delete_card', card_id=card.id) }}" title="Удалить">
+                <img src="{{ url_for('static', filename='images/delete_icons.gif') }}"
+                     alt="Удалить"
+                     width="50"
+                     height="50">
+            </a>
         </td>
     </tr>
     {% endfor %}

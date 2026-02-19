@@ -2,8 +2,12 @@
 {% block title %}Занятия{% endblock %}
 {% block content %}
 <h1>🧘‍♀️ Занятия</h1>
-<a href="{{ url_for('add_lesson') }}">➕ Добавить занятие</a>
-
+<a href="{{ url_for('add_lesson') }}" title="Добавить занятие">
+    <img src="{{ url_for('static', filename='images/add_icons.gif') }}"
+         alt="Добавить занятие"
+         width="50"
+         height="50">
+</a>
 <form method="get" action="{{ url_for('lessons') }}">
     <label for="status_filter">Фильтр по статусу:</label>
     <select name="status_filter" id="status_filter" onchange="this.form.submit()">
@@ -23,29 +27,26 @@
 </div>
 
 <table border="1">
-    <tr class="table-title">
-        <th>ID</th>
-        <th>Дата</th>
-        <th>Тренер</th>
-        <th>Ученики</th>
-        <th>Статус</th>
-        <th>Действия</th>
-    </tr>
-
     {% for l in lessons %}
-    <tr class="section_title">
-        <td colspan="6">{{ l.lesson_name }}</td>
+    <tr class="table-title">
+        <td colspan="6"><i>{{ l.date | ru_date }}</i> | {{ l.lesson_name }}</td>
     </tr>
-    <tr>
-        <td>{{ l.id }}</td>
-        <td>{{ l.date | ru_date }}</td>
-        <td>
+    <tr class="section_title">
+        <td colspan="6"><span style="font-weight: normal; font-style: normal;">тренер:</span>
             {% for c in coaches %}
             {% if c.id == l.coach_id %}
             {{ c.last_name }} {{ c.first_name }}
             {% endif %}
             {% endfor %}
+            <span style="font-weight: normal; font-style: normal;">  |  статус:</span>
+            {{ l.status }}
         </td>
+    </tr>
+    <tr class="section_sub_title">
+        <th>Ученики</th>
+        <th>Действия</th>
+    </tr>
+    <tr>
         <td>
             {% set ids = l.student_ids.split(',') %}
             {% for s in students %}
@@ -54,12 +55,37 @@
             {% endif %}
             {% endfor %}
         </td>
-        <td>{{ l.status }}</td>
         <td>
-            <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">✅</a>
-            <a href="{{ url_for('edit_lesson', lesson_id=l.id) }}" title="Редактировать">✏️</a>
-            <a href="#" onclick="downloadExcel({{ l.id }})">📋</a>
-            <a href="#" class="delete-btn" data-url="{{  url_for('delete_lesson', lesson_id=l.id)  }}">🗑️</a>
+            <a href="{{ url_for('lesson_done', lesson_id=l.id) }}" title="Состоялось">
+                <img src="{{ url_for('static', filename='images/ok_icons.gif') }}"
+                     alt="Состоялось"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="{{ url_for('edit_lesson', lesson_id=l.id) }}" title="Редактировать">
+                <img src="{{ url_for('static', filename='images/edit_icons.gif') }}"
+                     alt="Редактировать"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="#" onclick="downloadFile_docx({{ l.id }})" title="Скачать как таблицу">
+                <img src="{{ url_for('static', filename='images/table_icons.gif') }}"
+                     alt="Скачать как таблицу"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="#" href="#" onclick="downloadFile_png({{ l.id }})" title="Скачать как картинку">
+                <img src="{{ url_for('static', filename='images/picture_icons.gif') }}"
+                     alt="Скачать как картинку"
+                     width="50"
+                     height="50">
+            </a>
+            <a href="#" class="delete-btn" data-url="{{ url_for('delete_lesson', lesson_id=l.id) }}" title="Удалить">
+                <img src="{{ url_for('static', filename='images/delete_icons.gif') }}"
+                     alt="Удалить"
+                     width="50"
+                     height="50">
+            </a>
         </td>
     </tr>
     {% endfor %}
@@ -70,19 +96,46 @@
         const id = select.value;
         window.location.href = `/lesson_template/add/${id}`;
     }
-    function downloadExcel(lessonId) {
-    fetch('/generate_lesson_excel/' + lessonId)
-        .then(response => response.blob())
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'lesson.xlsx';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        });
-}
+
+    function downloadFile_docx(lesson_id) {
+        const formData = new FormData();
+        formData.append("lesson_id", lesson_id);
+        fetch("/download_docx", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "report.docx";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            });
+    }
+
+    function downloadFile_png(lesson_id) {
+        const formData = new FormData();
+        formData.append("lesson_id", lesson_id);
+        fetch("/download_png", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "report.png";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            });
+    }
 </script>
 {% endblock %}
 
