@@ -125,7 +125,7 @@ def add_card():
     if request.method == "POST":
         db.create_card(request.form["name"], request.form["price"], request.form["lessons_count"],
                        request.form["duration"],
-                       request.form["color"], request.form["status"]
+                       request.form["color"], "Активна"
                        )
         flash("Абонемент с названием<b> " + request.form["name"] + " </b>создан!", "success")
         return redirect(url_for("cards"))
@@ -138,7 +138,7 @@ def edit_card(card_id):
     card = db.get_card_by_id(card_id)
     if request.method == "POST":
         db.update_card(card_id, request.form["name"], request.form["price"], request.form["lessons_count"],
-                       request.form["duration"], request.form["color"], request.form["status"]
+                       request.form["duration"], request.form["color"], "Активна"
                        )
         flash("Абонемент с названием<b> " + request.form["name"] + " </b>обновлен!", "success")
         return redirect(url_for("cards"))

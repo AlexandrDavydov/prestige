@@ -11,12 +11,7 @@
                                   required></label><br><br>
     <label>Длительность: <input type="text" name="duration" value="{{ card.duration }}" required></label><br><br>
     <label>Цвет: <input type="text" name="color" value="{{ card.color }}"></label><br><br>
-    <label>Статус:
-        <select name="status">
-            <option {% if card.status=='Черновик' %}selected{% endif %}>Черновик</option>
-            <option {% if card.status=='Активна' %}selected{% endif %}>Активна</option>
-            <option {% if card.status=='Архив' %}selected{% endif %}>Архив</option>
-        </select></label><br><br>
+    <br><br>
     <button type="submit" class="btn">💾 Сохранить</button>
     <a href="{{ url_for('cards') }}" class="btn">❌ Отмена</a>
 </form>
