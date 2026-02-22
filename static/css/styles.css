@@ -151,15 +151,16 @@ td, th {
     font-weight: bold
 }
 
-nav {
+.main-nav{
     background-color: #1f2937;
     padding: 0 30px;
     display: flex;
     align-items: center;
     height: 60px;
+
 }
 
-nav a {
+.main-nav-links{
     color: white;
     text-decoration: none;
     margin-right: 25px;

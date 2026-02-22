@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика по абонементам</title>
+</head>
+<body>
+<h2>Статистика по абонементам</h2>
+<br>
+<div class="period-control">
+    <label>Период:</label>
+
+    <input type="date" id="date-from" name="date_from">
+    <span>по</span>
+    <input type="date" id="date-to" name="date_to">
+    <button type="button" id="show-period-btn">Показать</button>
+</div>
+<div class="content-area"></div>>
+</body>
+<script>
+document.getElementById("show-period-btn").addEventListener("click", function () {
+
+    const dateFrom = document.getElementById("date-from").value;
+    const dateTo = document.getElementById("date-to").value;
+
+    if (!dateFrom || !dateTo) {
+        alert("Выберите обе даты");
+        return;
+    }
+
+    fetch(`/lessons?date_from=${dateFrom}&date_to=${dateTo}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("content-area").innerHTML = html;
+        });
+});
+</script>
+</html>

@@ -23,7 +23,16 @@
         <td>{{ card.price }}</td>
         <td>{{ card.lessons_count }}</td>
         <td>{{ card.duration }}</td>
-        <td>{{ card.color }}</td>
+        <td>
+            <div style="
+        width: 40px;
+        height: 30px;
+        background-color: {{ card.color }};
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        display: inline-block;
+    "></div>
+        </td>
         <td>
             <a href="{{ url_for('edit_card', card_id=card.id) }}" title="Редактировать">
                 <img src="{{ url_for('static', filename='images/edit_icons.gif') }}"

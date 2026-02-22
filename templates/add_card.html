@@ -4,15 +4,26 @@
 <h1>Добавить Абонемент</h1>
 <form method="POST">
     <label>Название: <input type="text" name="name" required oninput="capitalizeFirst(this)"><br><br></label>
+    <label class="color-field">
+        <label>Цвет:</label>
+        <input type="color" name="color" value="#ff0000">
+        <span class="color-value">#ff0000</span>
+    </label><br><br>
     <label>Цена: <input type="number" name="price" required><br><br></label>
     <label>Кол-во занятий: <input type="number" name="lessons_count" required><br><br></label>
     <label>Длительность: <input type="text" name="duration" required><br><br></label>
-    <label>Цвет: <input type="text" name="color"><br><br></label>
     <br>
     <br>
     <button type="submit" class="btn">💾 Сохранить</button>
     <a href="{{ url_for('cards') }}" class="btn">❌ Отмена</a>
 </form>
 <script src="../static/js/common.js"></script>
-<br>
+<script>
+    const picker = document.getElementById("colorPicker");
+    const value = document.getElementById("colorValue");
+
+    picker.addEventListener("input", function() {
+        value.textContent = this.value;
+    });
+</script>
 {% endblock %}

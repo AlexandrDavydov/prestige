@@ -492,6 +492,31 @@ def ru_date(value):
 
     return value  # если формат неожиданный
 
+@app.route("/reports")
+@login_required
+def reports():
+    return render_template("reports.html")
+
+@app.route("/lessons_report")
+@login_required
+def lessons_report():
+    return render_template("lessons_report.html")
+
+@app.route("/cards_report")
+@login_required
+def cards_report():
+    return render_template("cards_report.html")
+
+@app.route("/coaches_report")
+@login_required
+def coaches_report():
+    return render_template("coaches_report.html")
+
+@app.route("/students_report")
+@login_required
+def students_report():
+    return render_template("students_report.html")
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

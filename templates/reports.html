@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Абонементы{% endblock %}
+{% block content %}
+<h1>📈 Отчеты</h1>
+<nav class="submenu">
+    <a href="{{ url_for('lessons_report') }}" class="menu-link">Занятия</a>
+    <a href="{{ url_for('students_report') }}" class="menu-link">Ученики</a>
+    <a href="{{ url_for('coaches_report') }}" class="menu-link">Тренеры</a>
+    <a href="{{ url_for('cards_report') }}" class="menu-link">Абонементы</a>
+</nav>
+
+<hr>
+
+<div id="content-area">
+    <!-- сюда будет загружаться контент -->
+</div>
+{% endblock %}

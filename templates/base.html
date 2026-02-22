@@ -8,15 +8,15 @@
 </head>
 <body>
 <a href="{{ url_for('logout') }}">🚪 Выйти</a>
-    <nav>
-        <a href="{{ url_for('index') }}"> 🏠 Главная</a>
-        <a href="{{ url_for('lessons') }}">🧘‍♀️ Занятия</a>
-        <a href="{{ url_for('students') }}"> 🏃‍♂️ Ученики</a>
-        <a href="{{ url_for('coaches') }}"> 👨‍🏫 Тренеры</a>
-        <a href="{{ url_for('cards') }}"> 🪪 Абонементы</a>
-        <a href="{{ url_for('lesson_templates') }}"> 📚 Шаблоны занятий</a>
-        <a href="{{ url_for('lesson_templates') }}"> 📈 Отчеты</a>
-    </nav>
+<nav class="main-nav">
+    <a class="main-nav-links" href="{{ url_for('index') }}"> 🏠 Главная</a>
+    <a class="main-nav-links" href="{{ url_for('lessons') }}">🧘‍♀️ Занятия</a>
+    <a class="main-nav-links" href="{{ url_for('students') }}"> 🏃‍♂️ Ученики</a>
+    <a class="main-nav-links" href="{{ url_for('coaches') }}"> 👨‍🏫 Тренеры</a>
+    <a class="main-nav-links" href="{{ url_for('cards') }}"> 🪪 Абонементы</a>
+    <a class="main-nav-links" href="{{ url_for('lesson_templates') }}"> 📚 Шаблоны занятий</a>
+    <a class="main-nav-links" href="{{ url_for('reports') }}"> 📈 Отчеты</a>
+</nav>
 <div class="container">
     <!-- Flash сообщения -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -72,14 +72,28 @@
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            openDeleteModal(this.dataset.url);
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openDeleteModal(this.dataset.url);
+            });
         });
     });
-});
+</script>
+<script>
+    document.querySelectorAll(".menu-link").forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            fetch(this.href)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("content-area").innerHTML = html;
+                })
+                .catch(error => console.error("Ошибка загрузки:", error));
+        });
+    });
 </script>
 </body>
 </html>
