@@ -502,20 +502,109 @@ def reports():
 def lessons_report():
     return render_template("lessons_report.html")
 
+def get_card_by_id(all_cards, card_id):
+    for card in all_cards:
+        if card["id"] == card_id:
+            return card
+    return None
+
 @app.route("/cards_report")
 @login_required
 def cards_report():
-    return render_template("cards_report.html")
+    global c_id
+
+    date_from = request.args.get("date_from")
+    date_to = request.args.get("date_to")
+
+    if not date_from or not date_to:
+         date_to = datetime.today().date()
+         date_from = date_to - timedelta(days=30)
+    else:
+        date_to = datetime.strptime(date_to, "%Y-%m-%d").date()
+        date_from = datetime.strptime(date_from, "%Y-%m-%d").date()
+
+    sold_cards_for_period = db.get_sold_cards_by_period(date_from, date_to)
+    sold_cards_sum = 0
+    all_cards = db.get_all_cards()
+
+    for card in sold_cards_for_period:
+        fondedCard = get_card_by_id(all_cards, int(card["id"]))
+        if fondedCard:
+            c_id = fondedCard["price"]
+            sold_cards_sum = sold_cards_sum + int(c_id)
+
+    return render_template("cards_report.html", date_from=date_from, date_to=date_to, sold_cards_for_period=sold_cards_for_period,
+                           sold_card_count = len(sold_cards_for_period), sold_cards_sum=sold_cards_sum)
 
 @app.route("/coaches_report")
 @login_required
 def coaches_report():
-    return render_template("coaches_report.html")
+    coaches_report_array = []
+    date_from = request.args.get("date_from")
+    date_to = request.args.get("date_to")
+
+    if not date_from or not date_to:
+        date_to = datetime.today().date()
+        date_from = date_to - timedelta(days=30)
+    else:
+        date_from = datetime.strptime(date_from, "%Y-%m-%d").date()
+        date_to = datetime.strptime(date_to, "%Y-%m-%d").date()
+
+    lessons_by_period = db.get_completed_lessons_by_period(date_from, date_to)
+    coaches = db.get_all_coaches()
+    for coach in coaches:
+        coach_lessons = get_lessons_by_coach_id(lessons_by_period, coach["id"])
+        node = {"coach_name": coach["last_name"]+" "+coach["first_name"],
+                "lessons_count": len(coach_lessons),
+                "sum": get_lessons_sum(coach_lessons, coach["student_payment"])
+                }
+        coaches_report_array.append(node)
+    all_sum = 0
+    all_lessons = 0
+    for coach_rep in coaches_report_array:
+        all_sum = all_sum + coach_rep["sum"]
+        all_lessons = all_lessons + coach_rep["lessons_count"]
+
+    node = {"coach_name":"",
+            "lessons_count": all_lessons,
+            "sum": all_sum
+            }
+    complete_coaches_report_array = []
+    complete_coaches_report_array.append(node)
+    complete_coaches_report_array.append(coaches_report_array)
+    return render_template("coaches_report.html", reports=complete_coaches_report_array,date_from=date_from,
+                           date_to=date_to)
+
+@login_required
+def get_lessons_sum(lessons, coach_payment):
+    sum = 0
+    for lesson in lessons:
+        if lesson["student_ids"]:
+            s_arr = list(map(int, lesson["student_ids"].split(",")))
+            sum = sum + len(s_arr)*coach_payment
+    return sum
+
+@login_required
+def get_lessons_by_coach_id(lessons, coach_id):
+    new_lessons = []
+    for lesson in lessons:
+        if lesson["coach_id"] == coach_id:
+            new_lessons.append(lesson)
+    return new_lessons
+
 
 @app.route("/students_report")
 @login_required
 def students_report():
     return render_template("students_report.html")
+
+@app.route("/report_card_dates")
+@login_required
+def report_card_dates():
+    date_from = request.args.get("date_from")
+    date_to = request.args.get("date_to")
+
+    return f"<h3>Период с {date_from} по {date_to}</h3>"
 
 
 if __name__ == "__main__":

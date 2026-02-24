@@ -1,38 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Статистика по абонементам</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Отчеты{% endblock %}
+{% block content %}
+<h1>📈 Отчеты</h1>
+<nav class="submenu">
+    <a href="{{ url_for('lessons_report') }}" class="menu-link">Занятия</a>
+    <a href="{{ url_for('students_report') }}" class="menu-link">Ученики</a>
+    <a href="{{ url_for('coaches_report') }}" class="menu-link">Тренеры</a>
+    <a href="{{ url_for('cards_report') }}" class="menu-link">Абонементы</a>
+</nav>
 <h2>Статистика по абонементам</h2>
 <br>
 <div class="period-control">
-    <label>Период:</label>
-
-    <input type="date" id="date-from" name="date_from">
-    <span>по</span>
-    <input type="date" id="date-to" name="date_to">
-    <button type="button" id="show-period-btn">Показать</button>
+    <form action="/cards_report" method="get">
+        <label>Период: c</label>
+        <input type="date" id="date-from" name="date_from" value="{{ date_from }}">
+        <span>по</span>
+        <input type="date" id="date-to" name="date_to" value="{{ date_to }}">
+        <button class="btn" type="submit">🔍 Показать</button>
+    </form>
 </div>
-<div class="content-area"></div>>
-</body>
-<script>
-document.getElementById("show-period-btn").addEventListener("click", function () {
-
-    const dateFrom = document.getElementById("date-from").value;
-    const dateTo = document.getElementById("date-to").value;
-
-    if (!dateFrom || !dateTo) {
-        alert("Выберите обе даты");
-        return;
-    }
-
-    fetch(`/lessons?date_from=${dateFrom}&date_to=${dateTo}`)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("content-area").innerHTML = html;
-        });
-});
-</script>
-</html>
+<hr>
+<div>
+    <label>Всего продано:</label><b>{{ sold_card_count }}</b>
+    <label>На сумму:</label><b>{{ sold_cards_sum }}</b>
+</div>
+{% endblock %}

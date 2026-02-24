@@ -475,3 +475,30 @@ def add_lesson_from_template(lesson_template_id):
     """, (datetime.now().strftime("%Y-%m-%d"), lesson_template["template_name"], lesson_template["coach_id"], lesson_template["student_ids"], "Запланировано"))
     conn.commit()
     conn.close()
+
+def get_sold_cards_by_period(date_from, date_to):
+    conn = get_connection()
+    cursor = conn.execute("""
+        SELECT *
+        FROM sold_cards
+        WHERE date >= date(?)
+          AND date < date(?, '+1 day')
+    """, (date_from, date_to))
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+def get_completed_lessons_by_period(date_from, date_to):
+    conn = get_connection()
+    cursor = conn.execute("""
+        SELECT *
+        FROM lessons
+        WHERE date >= date(?)
+          AND date <= date(?)
+          AND status == 'Состоялось'
+    """, (date_from, date_to))
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows

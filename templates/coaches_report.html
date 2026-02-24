@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Статистика по тренерам</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Отчеты{% endblock %}
+{% block content %}
+<h1>📈 Отчеты</h1>
+<nav class="submenu">
+    <a href="{{ url_for('lessons_report') }}" class="menu-link">Занятия</a>
+    <a href="{{ url_for('students_report') }}" class="menu-link">Ученики</a>
+    <a href="{{ url_for('coaches_report') }}" class="menu-link">Тренеры</a>
+    <a href="{{ url_for('cards_report') }}" class="menu-link">Абонементы</a>
+</nav>
 <h2>Статистика по тренерам</h2>
-</body>
-</html>
+<br>
+<div class="period-control">
+    <form action="/coaches_report" method="get">
+        <label>Период: c</label>
+        <input type="date" id="date-from" name="date_from" value="{{ date_from }}">
+        <span>по</span>
+        <input type="date" id="date-to" name="date_to" value="{{ date_to }}">
+        <button class="btn" type="submit">🔍 Показать</button>
+    </form>
+</div>
+<hr>
+<div>
+    <table border="1">
+        <thead>
+        <tr class="section_sub_title">
+            <th>Тренер</th>
+            <th>Количество занятий</th>
+            <th>Сумма</th>
+        </tr>
+        </thead>
+        <tbody>
+        {# Сначала массив тренеров #}
+        {% for coach in reports[1] %}
+        <tr>
+            <td>{{ coach.coach_name }}</td>
+            <td>{{ coach.lessons_count }}</td>
+            <td>{{ coach.sum }}</td>
+        </tr>
+        {% endfor %}
+
+        {# Итоговая строка #}
+        <tr style="font-weight:bold">
+            <td>{{ reports[0].coach_name or "Итого" }}</td>
+            <td>{{ reports[0].lessons_count }}</td>
+            <td>{{ reports[0].sum }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
