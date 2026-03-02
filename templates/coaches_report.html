@@ -13,9 +13,9 @@
 <div class="period-control">
     <form action="/coaches_report" method="get">
         <label>Период: c</label>
-        <input type="date" id="date-from" name="date_from" value="{{ date_from }}">
+        <input class="custom-select" type="date" id="date-from" name="date_from" value="{{ date_from }}">
         <span>по</span>
-        <input type="date" id="date-to" name="date_to" value="{{ date_to }}">
+        <input class="custom-select" type="date" id="date-to" name="date_to" value="{{ date_to }}">
         <button class="btn" type="submit">🔍 Показать</button>
     </form>
 </div>
@@ -26,6 +26,7 @@
         <tr class="section_sub_title">
             <th>Тренер</th>
             <th>Количество занятий</th>
+            <th>Количество учеников</th>
             <th>Сумма</th>
         </tr>
         </thead>
@@ -35,6 +36,7 @@
         <tr>
             <td>{{ coach.coach_name }}</td>
             <td>{{ coach.lessons_count }}</td>
+            <td>{{ coach.students_count }}</td>
             <td>{{ coach.sum }}</td>
         </tr>
         {% endfor %}
@@ -43,6 +45,7 @@
         <tr style="font-weight:bold">
             <td>{{ reports[0].coach_name or "Итого" }}</td>
             <td>{{ reports[0].lessons_count }}</td>
+            <td>{{ reports[0].students_count }}</td>
             <td>{{ reports[0].sum }}</td>
         </tr>
         </tbody>

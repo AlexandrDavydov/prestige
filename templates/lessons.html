@@ -10,22 +10,23 @@
 </a>
 <form method="get" action="{{ url_for('lessons') }}">
     <label for="status_filter">Фильтр по статусу:</label>
-    <select name="status_filter" id="status_filter" onchange="this.form.submit()">
+    <select class="custom-select" name="status_filter" id="status_filter" onchange="this.form.submit()">
         <option value="Запланировано" {% if status_filter=='Запланировано' %}selected{% endif %}>Запланировано</option>
         <option value="Состоялось" {% if status_filter=='Состоялось' %}selected{% endif %}>Состоялось</option>
         <option value="Все" {% if status_filter=='Все' %}selected{% endif %}>Все</option>
     </select>
 </form>
+<br>
 <div>
     Шаблоны:
-    <select id="lesson_template_select">
+    <select class="custom-select" id="lesson_template_select">
         {% for l in lesson_templates %}
         <option value="{{ l.id }}">{{ l.template_name }}</option>
         {% endfor %}
     </select>
     <a href="#" class="btn" onclick="addFromTemplate()">📋 Добавить из шаблона</a>
 </div>
-
+<hr>
 <table border="1">
     {% for l in lessons %}
     <tr class="table-title">

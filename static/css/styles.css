@@ -148,7 +148,7 @@ td, th {
     margin: 20px;
     background: #B7FEE2;
     color: black;
-    font-weight: bold
+    border: 1px solid #000000;
 }
 
 .main-nav{
@@ -222,4 +222,26 @@ td, th {
     color: #9ca3af;
     font-style: italic;
 }
+.custom-select {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #01804E;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
+.custom-table {
+    border-collapse: separate;   /* ВАЖНО */
+    border-spacing: 0;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    overflow: hidden;            /* чтобы углы обрезались */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.styled-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
+.custom-table tr:nth-child(even) {
+    background-color: #EEEEEE;
+}

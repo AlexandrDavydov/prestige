@@ -556,17 +556,21 @@ def coaches_report():
         coach_lessons = get_lessons_by_coach_id(lessons_by_period, coach["id"])
         node = {"coach_name": coach["last_name"]+" "+coach["first_name"],
                 "lessons_count": len(coach_lessons),
+                "students_count":get_lessons_students_count(coach_lessons),
                 "sum": get_lessons_sum(coach_lessons, coach["student_payment"])
                 }
         coaches_report_array.append(node)
     all_sum = 0
     all_lessons = 0
+    all_students = 0
     for coach_rep in coaches_report_array:
         all_sum = all_sum + coach_rep["sum"]
         all_lessons = all_lessons + coach_rep["lessons_count"]
+        all_students = all_students + coach_rep["students_count"]
 
     node = {"coach_name":"",
             "lessons_count": all_lessons,
+            "students_count":all_students,
             "sum": all_sum
             }
     complete_coaches_report_array = []
@@ -583,6 +587,15 @@ def get_lessons_sum(lessons, coach_payment):
             s_arr = list(map(int, lesson["student_ids"].split(",")))
             sum = sum + len(s_arr)*coach_payment
     return sum
+
+@login_required
+def get_lessons_students_count(lessons):
+    students_count = 0
+    for lesson in lessons:
+        if lesson["student_ids"]:
+            s_arr = list(map(int, lesson["student_ids"].split(",")))
+            students_count = students_count + len(s_arr)
+    return students_count
 
 @login_required
 def get_lessons_by_coach_id(lessons, coach_id):

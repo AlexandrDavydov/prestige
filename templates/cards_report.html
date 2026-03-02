@@ -13,9 +13,9 @@
 <div class="period-control">
     <form action="/cards_report" method="get">
         <label>Период: c</label>
-        <input type="date" id="date-from" name="date_from" value="{{ date_from }}">
+        <input class="custom-select" type="date" id="date-from" name="date_from" value="{{ date_from }}">
         <span>по</span>
-        <input type="date" id="date-to" name="date_to" value="{{ date_to }}">
+        <input class="custom-select" type="date" id="date-to" name="date_to" value="{{ date_to }}">
         <button class="btn" type="submit">🔍 Показать</button>
     </form>
 </div>
