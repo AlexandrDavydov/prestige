@@ -10,28 +10,26 @@
 </a>
 <table border="1">
     <tr class="section_sub_title">
-        <th>Тренер</th>
         <th>Ученики</th>
         <th>Действия</th>
     </tr>
 
     {% for l in lesson_templates %}
     <tr>
-        <td class="section_title" colspan="4">{{ l.template_name }}</td>
-    </tr>
-    <tr>
-        <td>
-            {% for c in coaches %}
+        <td class="section_title" colspan="4">{{ l.template_name }} <i>{% for c in coaches %}
             {% if c.id == l.coach_id %}
             {{ c.last_name }} {{ c.first_name }}
             {% endif %}
-            {% endfor %}
-        </td>
+            {% endfor %}</i></td>
+    </tr>
+    <tr>
         <td>
             {% set ids = l.student_ids.split(',') %}
+            {% set counter = namespace(value=1) %} {# используем namespace для изменяемого значения #}
             {% for s in students %}
             {% if s.id|string in ids %}
-            {{ s.last_name }} {{ s.first_name }}<br>
+            {{ counter.value }}. {{ s.last_name }} {{ s.first_name }}<br>
+            {% set counter.value = counter.value + 1 %}
             {% endif %}
             {% endfor %}
         </td>
