@@ -2,11 +2,26 @@ import sqlite3
 from datetime import datetime
 
 DB_NAME = "instance/db.db"
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_FORMAT = "%Y-%m-%d"
+
 
 def get_connection():
     conn = sqlite3.connect(DB_NAME)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def current_datetime():
+    return datetime.now().strftime(DATETIME_FORMAT)
+
+
+def current_date():
+    return datetime.now().strftime(DATE_FORMAT)
+
+
+def serialize_student_ids(student_ids):
+    return ",".join(student_ids)
 
 
 def init_db():
@@ -115,7 +130,7 @@ def create_card(name, price, lessons_count, duration, color, status):
                  INSERT INTO cards (name, price, lessons_count, duration, color, status, creation_date)
                  VALUES (?, ?, ?, ?, ?, ?, ?)
                  """,
-                 (name, price, lessons_count, duration, color, status, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                 (name, price, lessons_count, duration, color, status, current_datetime()))
     conn.commit()
     conn.close()
 
@@ -172,7 +187,7 @@ def add_student(first_name, last_name, middle_name, contacts, birthday, lessons_
                                        additional_info, creation_date)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                  """, (first_name, last_name, middle_name, contacts, birthday, lessons_count, additional_info,
-                       datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                       current_datetime()))
     conn.commit()
     conn.close()
 
@@ -216,7 +231,7 @@ def add_coach(first_name, last_name, middle_name, contacts, birthday, lessons_co
                                       lessons_paid, student_payment, additional_info, creation_date)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                  """, (first_name, last_name, middle_name, contacts, birthday, lessons_count, lessons_paid, student_payment,
-                       additional_info, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                       additional_info, current_datetime()))
     conn.commit()
     conn.close()
 
@@ -286,7 +301,7 @@ def add_lesson_template(template_name, coach_id, student_ids):
     conn.execute("""
                  INSERT INTO lesson_templates (template_name, coach_id, student_ids)
                  VALUES (?, ?, ?)
-                 """, (template_name, coach_id, ",".join(student_ids)))
+                 """, (template_name, coach_id, serialize_student_ids(student_ids)))
     conn.commit()
     conn.close()
 
@@ -296,7 +311,7 @@ def update_lesson_template(lesson_template_id, template_name,coach_id, student_i
                  UPDATE lesson_templates
                  SET template_name=?, coach_id=?, student_ids=?
                  WHERE id = ?
-                 """, (template_name, coach_id, ",".join(student_ids), lesson_template_id))
+                 """, (template_name, coach_id, serialize_student_ids(student_ids), lesson_template_id))
     conn.commit()
     conn.close()
 
@@ -332,7 +347,7 @@ def add_lesson(date, lesson_name, coach_id, student_ids, status):
     conn.execute("""
         INSERT INTO lessons (date, lesson_name, coach_id, student_ids, status)
         VALUES (?, ?, ?, ?, ?)
-    """, (date, lesson_name, coach_id, ",".join(student_ids), status))
+    """, (date, lesson_name, coach_id, serialize_student_ids(student_ids), status))
     conn.commit()
     conn.close()
 
@@ -342,7 +357,7 @@ def update_lesson(lesson_id, lesson_name, date, coach_id, student_ids, status):
         UPDATE lessons
         SET date=?, lesson_name=?, coach_id=?, student_ids=?, status=?
         WHERE id=?
-    """, (date, lesson_name, coach_id, ",".join(student_ids), status, lesson_id))
+    """, (date, lesson_name, coach_id, serialize_student_ids(student_ids), status, lesson_id))
     conn.commit()
     conn.close()
 
@@ -461,7 +476,7 @@ def store_purchased_card(card_id, student_id):
     conn.execute("""
         INSERT INTO sold_cards (date, card_id, student_id)
         VALUES (?, ?, ?)
-    """, (datetime.now().strftime("%Y-%m-%d"), card_id, student_id))
+    """, (current_date(), card_id, student_id))
     conn.commit()
     conn.close()
 

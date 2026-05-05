@@ -245,3 +245,45 @@ td, th {
 .custom-table tr:nth-child(even) {
     background-color: #EEEEEE;
 }
+
+.pagination {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.pagination-link {
+    min-width: 36px;
+    padding: 8px 12px;
+    border: 1px solid #01804E;
+    border-radius: 6px;
+    color: #01804E;
+    text-align: center;
+    text-decoration: none;
+    background: #FFFFFF;
+}
+
+.pagination-link:hover {
+    background: #EAF8F2;
+}
+
+.pagination-link.active {
+    background: #01804E;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.pagination-link.disabled {
+    border-color: #BDBDBD;
+    color: #9CA3AF;
+    cursor: default;
+}
+
+.pagination-ellipsis {
+    padding: 8px 4px;
+    color: #6B7280;
+}
