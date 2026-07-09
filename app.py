@@ -25,12 +25,12 @@ logging.basicConfig(
 db.init_db()
 
 
-# ===============login=====================
+
 @app.route("/version", methods=["GET"])
 def version():
     return "version: " + VERSION
 
-
+# ===============login=====================
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -456,6 +456,7 @@ def download_file_png():
 @app.route("/lessons")
 @login_required
 def lessons():
+
     status_filter = request.args.get("status_filter")
     page = as_int(request.args.get("page"), default=1)
 

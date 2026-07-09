@@ -324,13 +324,13 @@ def delete_lesson_template(lesson_template_id):
 # ===== Lessons ========================================================================
 def get_all_lessons():
     conn = get_connection()
-    lessons = conn.execute("SELECT * FROM lessons ORDER BY date DESC").fetchall()
+    lessons = conn.execute("SELECT * FROM lessons ORDER BY date DESC, id DESC").fetchall()
     conn.close()
     return lessons
 
 def get_lessons_filtered_by_status(status):
     conn = get_connection()
-    lessons = conn.execute("SELECT * FROM lessons WHERE status = ? ORDER BY date DESC",(status,)).fetchall()
+    lessons = conn.execute("SELECT * FROM lessons WHERE status = ? ORDER BY date DESC, id DESC",(status,)).fetchall()
     conn.close()
     return lessons
 
