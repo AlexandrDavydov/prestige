@@ -9,6 +9,7 @@
          height="50">
 </a>
 <form method="get" action="{{ url_for('lessons') }}">
+    <input type="hidden" name="page" value="1">
     <label for="status_filter">Фильтр по статусу:</label>
     <select class="custom-select" name="status_filter" id="status_filter" onchange="this.form.submit()">
         <option value="Запланировано" {% if status_filter=='Запланировано' %}selected{% endif %}>Запланировано</option>
@@ -27,22 +28,22 @@
     <a href="#" class="btn" onclick="addFromTemplate()">📋 Добавить из шаблона</a>
 </div>
 <hr>
+{% include "_pagination.html" %}
+<br>
 <table border="1">
     {% for l in lessons %}
     <tr class="table-title">
         <td colspan="6"><i>{{ l.date | ru_date }}</i> | {{ l.lesson_name }}</td>
     </tr>
-    <tr class="section_title">
-        <td colspan="6"><span style="font-weight: normal; font-style: normal;">тренер:</span>
-            {% for c in coaches %}
-            {% if c.id == l.coach_id %}
-            {{ c.last_name }} {{ c.first_name }}
-            {% endif %}
-            {% endfor %}
-            <span style="font-weight: normal; font-style: normal;">  |  статус:</span>
-            {{ l.status }}
-        </td>
-    </tr>
+    <td colspan="6"><span style="font-weight: normal; font-style: normal;">тренер:</span>
+        {% for c in coaches %}
+        {% if c.id == l.coach_id %}
+        {{ c.last_name }} {{ c.first_name }}
+        {% endif %}
+        {% endfor %}
+        <span style="font-weight: normal; font-style: normal;">  |  статус:</span>
+        {{ l.status }}
+    </td>
     <tr class="section_sub_title">
         <th>Ученики</th>
         <th>Действия</th>
@@ -91,6 +92,7 @@
     </tr>
     {% endfor %}
 </table>
+{% include "_pagination.html" %}
 <script>
     function addFromTemplate() {
         const select = document.getElementById("lesson_template_select");
