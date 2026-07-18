@@ -1,0 +1,33 @@
+{% if pagination.total_pages > 1 %}
+<nav class="pagination" aria-label="Переключение страниц">
+    {% if pagination.has_previous %}
+    <a class="pagination-link" href="{{ url_for('lessons', status_filter=status_filter, page=pagination.page - 1) }}">
+        Назад
+    </a>
+    {% else %}
+    <span class="pagination-link disabled">Назад</span>
+    {% endif %}
+
+    {% for page_number in pagination.pages %}
+        {% if page_number is none %}
+        <span class="pagination-ellipsis">...</span>
+        {% else %}
+        {% if page_number == pagination.page %}
+        <span class="pagination-link active">{{ page_number }}</span>
+        {% else %}
+        <a class="pagination-link" href="{{ url_for('lessons', status_filter=status_filter, page=page_number) }}">
+            {{ page_number }}
+        </a>
+        {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if pagination.has_next %}
+    <a class="pagination-link" href="{{ url_for('lessons', status_filter=status_filter, page=pagination.page + 1) }}">
+        Далее
+    </a>
+    {% else %}
+    <span class="pagination-link disabled">Далее</span>
+    {% endif %}
+</nav>
+{% endif %}
