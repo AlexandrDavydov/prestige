@@ -33,7 +33,7 @@ def init_db():
                    (
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
                        name TEXT NOT NULL,
-                       price REAL NOT NULL,
+                       price INTEGER NOT NULL,
                        lessons_count INTEGER NOT NULL,
                        duration TEXT NOT NULL,
                        color TEXT,
