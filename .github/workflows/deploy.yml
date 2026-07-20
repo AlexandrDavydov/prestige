@@ -26,12 +26,16 @@ jobs:
 
       - name: Start app container
         run: |
+          mkdir -p ${{ github.workspace }}/instance
+          chmod 777 ${{ github.workspace }}/instance
           docker run -d --name app \
             -p 5000:5000 \
             -v ${{ github.workspace }}/instance:/app/instance \
             prestige-app
           sleep 5
           curl --retry 10 --retry-delay 2 --retry-connrefused http://localhost:5000
+          ls -la ${{ github.workspace }}/instance/
+          docker logs app
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
