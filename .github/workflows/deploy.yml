@@ -34,6 +34,7 @@ jobs:
             prestige-app
           sleep 5
           curl --retry 10 --retry-delay 2 --retry-connrefused http://localhost:5000
+          chmod 666 ${{ github.workspace }}/instance/db.db
           ls -la ${{ github.workspace }}/instance/
           docker logs app
 
