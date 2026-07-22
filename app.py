@@ -14,7 +14,7 @@ app.logger.setLevel(logging.INFO)
 app.secret_key = "super-secret-key-l#aksjd@lakjsd"
 USERNAME = "admin"
 PASSWORD = "g@z"
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 LESSONS_PER_PAGE = 10
 
 logging.basicConfig(
