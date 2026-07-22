@@ -103,7 +103,7 @@ jobs:
           external_repository: AlexandrDavydov/prestige_test_java
           publish_branch: gh-pages
           publish_dir: tests/target/allure-report
-          github_token: ${{ secrets.GH_PAT }}
+          personal_token: ${{ secrets.GH_PAT }}
 
   build-and-deploy:
     needs: e2e-tests  # <-- деплой только при успешных тестах
