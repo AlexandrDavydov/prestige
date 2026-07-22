@@ -132,21 +132,48 @@ jobs:
           ls -1 | sort -r | tail -n +21 | xargs -r rm -rf
           cd ../../../..
 
-          # Create root index.html redirecting to latest report
-          LATEST_REPORT=$(ls -1 "$REPORTS_DIR" | sort -r | head -1)
-          if [ -n "$LATEST_REPORT" ]; then
-            cat > tests/target/allure-report/index.html << EOF
+          cat > tests/target/allure-report/index.html << 'REPORTINDEX'
           <!DOCTYPE html>
-          <html>
+          <html lang="en">
           <head>
-            <meta http-equiv="refresh" content="0; url=reports/$LATEST_REPORT/index.html" />
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Allure Reports</title>
+            <style>
+              body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+              h1 { color: #333; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+              th { background-color: #f5f5f5; }
+              tr:hover { background-color: #f9f9f9; }
+              a { color: #0366d6; text-decoration: none; }
+              a:hover { text-decoration: underline; }
+              .latest-badge { background: #28a745; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+            </style>
           </head>
           <body>
-            <p>Redirecting to <a href="reports/$LATEST_REPORT/index.html">latest Allure report</a></p>
+            <h1>Allure Test Reports</h1>
+            <table>
+              <tr><th>Report</th><th>Date</th></tr>
+          REPORTINDEX
+
+          for report in $(ls -1 "$REPORTS_DIR" | sort -r); do
+            TIMESTAMP="${report#reports/}"
+            DATE_PART="${TIMESTAMP:0:8}"
+            TIME_PART="${TIMESTAMP:9:2}:${TIMESTAMP:11:2}:${TIMESTAMP:13:2}"
+            FORMATTED_DATE="${DATE_PART:0:4}-${DATE_PART:4:2}-${DATE_PART:6:2} $TIME_PART"
+            LATEST_TAG=""
+            if [ "$report" = "$(ls -1 "$REPORTS_DIR" | sort -r | head -1)" ]; then
+              LATEST_TAG=' <span class="latest-badge">latest</span>'
+            fi
+            echo "              <tr><td><a href=\"reports/$report/index.html\">$report</a>$LATEST_TAG</td><td>$FORMATTED_DATE</td></tr>" >> tests/target/allure-report/index.html
+          done
+
+          cat >> tests/target/allure-report/index.html << 'REPORTINDEXCLOSE'
+            </table>
           </body>
           </html>
-          EOF
-          fi
+          REPORTINDEXCLOSE
 
       - name: Deploy Allure report to GitHub Pages
         if: always()
