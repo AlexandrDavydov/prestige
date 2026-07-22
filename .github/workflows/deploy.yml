@@ -79,18 +79,6 @@ jobs:
           name: e2e-results
           path: tests/target/surefire-reports/
 
-      - name: Debug allure-results
-        if: always()
-        run: |
-          echo "=== Contents of tests/target ==="
-          ls -la tests/target/ 2>/dev/null || echo "tests/target/ not found"
-          echo "=== Looking for allure-results ==="
-          ls -la tests/target/allure-results/ 2>/dev/null || echo "allure-results not found"
-          echo "=== Looking for allure-results in current dir ==="
-          ls -la target/allure-results/ 2>/dev/null || echo "target/allure-results not found"
-          echo "=== Any allure-result files? ==="
-          find . -name "*-result.json" 2>/dev/null || echo "no json results found"
-
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
@@ -100,13 +88,31 @@ jobs:
 
       - name: Install Allure CLI
         if: always()
-        working-directory: tests
         run: npm install -g allure-commandline
+
+      - name: Debug allure paths
+        if: always()
+        run: |
+          echo "=== Allure version ==="
+          allure --version
+          echo "=== List tests/target ==="
+          ls -la tests/target/
+          echo "=== Count result files ==="
+          ls tests/target/allure-results/*-result.json 2>/dev/null | wc -l
+          echo "=== First result file content ==="
+          head -c 500 tests/target/allure-results/*-result.json 2>/dev/null | head -1
 
       - name: Generate Allure report
         if: always()
-        working-directory: tests
-        run: allure generate target/allure-results -o target/allure-report --clean
+        run: allure generate tests/target/allure-results -o tests/target/allure-report --clean
+
+      - name: Debug allure-report
+        if: always()
+        run: |
+          echo "=== allure-report contents ==="
+          ls -la tests/target/allure-report/ 2>/dev/null || echo "report dir not found"
+          echo "=== index.html exists? ==="
+          test -f tests/target/allure-report/index.html && echo "YES" || echo "NO"
 
       - name: Deploy Allure report to GitHub Pages
         if: always()
