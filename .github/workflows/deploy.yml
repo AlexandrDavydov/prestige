@@ -79,6 +79,18 @@ jobs:
           name: e2e-results
           path: tests/target/surefire-reports/
 
+      - name: Debug allure-results
+        if: always()
+        run: |
+          echo "=== Contents of tests/target ==="
+          ls -la tests/target/ 2>/dev/null || echo "tests/target/ not found"
+          echo "=== Looking for allure-results ==="
+          ls -la tests/target/allure-results/ 2>/dev/null || echo "allure-results not found"
+          echo "=== Looking for allure-results in current dir ==="
+          ls -la target/allure-results/ 2>/dev/null || echo "target/allure-results not found"
+          echo "=== Any allure-result files? ==="
+          find . -name "*-result.json" 2>/dev/null || echo "no json results found"
+
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
