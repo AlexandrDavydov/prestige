@@ -95,10 +95,6 @@ jobs:
             -Dexec.classpathScope=compile \
             -q
 
-      - name: Copy test suite report
-        if: always()
-        run: cp tests/testSuite.html tests/target/allure-report/testSuite.html
-
       - name: Load existing reports from gh-pages
         if: always()
         uses: actions/checkout@v4
@@ -129,6 +125,10 @@ jobs:
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
           mkdir -p tests/target/allure-report/reports
           allure generate tests/target/allure-results -o "tests/target/allure-report/reports/$TIMESTAMP" --clean
+
+      - name: Copy test suite report
+        if: always()
+        run: cp tests/testSuite.html tests/target/allure-report/testSuite.html
 
       - name: Combine reports and keep last 20
         if: always()
