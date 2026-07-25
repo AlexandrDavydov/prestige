@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: AlexandrDavydov/prestige_test_java
-          ref: ci_cd_integration
+          ref: master
           path: tests
           token: ${{ secrets.GH_PAT }}
 
