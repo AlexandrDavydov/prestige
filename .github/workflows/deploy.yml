@@ -86,6 +86,19 @@ jobs:
           name: e2e-allure-results
           path: tests/target/allure-results/
 
+      - name: Generate test suite report
+        if: always()
+        run: |
+          cd tests
+          mvn compile exec:java \
+            -Dexec.mainClass='com.prestige.utils.GetTestSuit$Main' \
+            -Dexec.classpathScope=compile \
+            -q
+
+      - name: Copy test suite report
+        if: always()
+        run: cp tests/testSuite.html tests/target/allure-report/testSuite.html
+
       - name: Load existing reports from gh-pages
         if: always()
         uses: actions/checkout@v4
@@ -171,6 +184,9 @@ jobs:
 
           cat >> tests/target/allure-report/index.html << 'REPORTINDEXCLOSE'
             </table>
+            <p style="margin-top: 30px;">
+              📋 <a href="testSuite.html">Test Suite Documentation</a>
+            </p>
           </body>
           </html>
           REPORTINDEXCLOSE
