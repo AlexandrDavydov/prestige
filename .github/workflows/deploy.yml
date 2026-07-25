@@ -128,7 +128,9 @@ jobs:
 
       - name: Copy test suite report
         if: always()
-        run: cp tests/testSuite.html tests/target/allure-report/testSuite.html
+        run: |
+          cp tests/testSuite.html tests/target/allure-report/testSuite.html
+          cp tests/testSuite.html "tests/target/allure-report/reports/$TIMESTAMP/testSuite.html"
 
       - name: Combine reports and keep last 20
         if: always()
@@ -167,7 +169,7 @@ jobs:
           <body>
             <h1>Allure Test Reports</h1>
             <table>
-              <tr><th>Report</th><th>Date</th></tr>
+              <tr><th>Report</th><th>Date</th><th>Suite</th></tr>
           REPORTINDEX
 
           for report in $(ls -1 "$REPORTS_DIR" | sort -r); do
@@ -179,7 +181,11 @@ jobs:
             if [ "$report" = "$(ls -1 "$REPORTS_DIR" | sort -r | head -1)" ]; then
               LATEST_TAG=' <span class="latest-badge">latest</span>'
             fi
-            echo "              <tr><td><a href=\"reports/$report/index.html\">$report</a>$LATEST_TAG</td><td>$FORMATTED_DATE</td></tr>" >> tests/target/allure-report/index.html
+            SUITE_LINK="—"
+            if [ -f "tests/target/allure-report/reports/$report/testSuite.html" ]; then
+              SUITE_LINK="<a href=\"reports/$report/testSuite.html\">Suite</a>"
+            fi
+            echo "              <tr><td><a href=\"reports/$report/index.html\">$report</a>$LATEST_TAG</td><td>$FORMATTED_DATE</td><td>$SUITE_LINK</td></tr>" >> tests/target/allure-report/index.html
           done
 
           cat >> tests/target/allure-report/index.html << 'REPORTINDEXCLOSE'
